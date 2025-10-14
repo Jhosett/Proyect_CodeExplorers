@@ -12,22 +12,22 @@ const GameModeCard = ({ mode, index }) => {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.2 }}
-      whileHover={{ y: -8, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileHover={{ y: -6, scale: 1.01, transition: { duration: 0.2, ease: "easeOut" } }}
+      whileTap={{ scale: 0.98, transition: { duration: 0.1 } }}
     >
       {/* Main card */}
-      <div className="relative bg-[#1E293B]/90 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/20 transition-all duration-300 shadow-xl group-hover:shadow-2xl">
+      <div className="relative bg-[#1E293B]/90 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 group-hover:border-white/20 transition-all duration-200 shadow-xl group-hover:shadow-2xl will-change-transform">
         
         {/* Image section */}
         <div className="relative h-48 overflow-hidden">
           <img 
             src={mode.image} 
             alt={mode.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 will-change-transform"
           />
           
           {/* Gradient overlay */}
-          <div className={`absolute inset-0 bg-gradient-to-t ${mode.color} opacity-60 group-hover:opacity-20 transition-opacity duration-300`} />
+          <div className={`absolute inset-0 bg-gradient-to-t ${mode.color} opacity-60 group-hover:opacity-30 transition-opacity duration-200`} />
           
           {/* Icon overlay */}
           <div className="absolute top-4 right-4">
@@ -56,9 +56,9 @@ const GameModeCard = ({ mode, index }) => {
 
           {/* Action button */}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`flex gap-2 items-center justify-center w-full bg-gradient-to-r ${mode.color} hover:shadow-lg text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 shadow-md`}
+            whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
+            whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
+            className={`flex gap-2 items-center justify-center w-full bg-gradient-to-r ${mode.color} hover:shadow-lg text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-md`}
           >
             <IoLogoGameControllerA className="w-6 h-6" />
             <span>Jugar!</span>

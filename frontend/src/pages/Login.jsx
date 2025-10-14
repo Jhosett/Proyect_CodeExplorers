@@ -100,7 +100,7 @@ export default function Login() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 bg-[#1E293B]/70 backdrop-blur-lg rounded-2xl shadow-2xl p-10 w-[550px] border border-white/10"
+        className="relative z-10 bg-[#1E293B]/70 backdrop-blur-lg rounded-2xl shadow-2xl p-10 w-[550px] border border-white/30"
       >
         {/* Title */}
         <div className="text-center mb-8">
