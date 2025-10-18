@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaEnvelope, FaLock, FaEyeSlash, FaEye } from "react-icons/fa";
+import { IoHome } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import BugBackground from "../components/BugBackground";
 import Swal from 'sweetalert2';
@@ -91,6 +92,16 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white relative overflow-hidden">
+      {/* Home button */}
+      <motion.button
+        onClick={() => navigate('/')}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        className="absolute top-6 right-6 z-20 w-12 h-12 bg-purple-600/20 backdrop-blur-sm border border-purple-500/30 hover:border-purple-500/60 rounded-full flex items-center justify-center text-purple-400 hover:text-white transition-all duration-200"
+      >
+        <IoHome className="w-6 h-6" />
+      </motion.button>
+      
       {/* Background effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(124,58,237,0.15),transparent_50%),radial-gradient(circle_at_80%_80%,rgba(56,189,248,0.15),transparent_50%)] blur-3xl"></div>
       <BugBackground />
