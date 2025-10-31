@@ -209,6 +209,7 @@ export default function Dashboard() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() => navigate("/game-modes")}
                   className="mt-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-8 py-3 rounded-xl font-bold shadow-lg transition-all"
                 >
                   <div className='flex items-center gap-3'>

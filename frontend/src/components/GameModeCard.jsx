@@ -1,8 +1,10 @@
 // src/components/GameModeCard.jsx
 import { motion } from "framer-motion";
 import { IoLogoGameControllerA } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const GameModeCard = ({ mode, index }) => {
+  const navigate = useNavigate();
   const IconComponent = mode.icon;
 
   return (
@@ -56,6 +58,7 @@ const GameModeCard = ({ mode, index }) => {
 
           {/* Action button */}
           <motion.button
+            onClick={() => navigate(`/game-introduction/${mode.id}`)}
             whileHover={{ scale: 1.03, transition: { duration: 0.15 } }}
             whileTap={{ scale: 0.97, transition: { duration: 0.1 } }}
             className={`flex gap-2 items-center justify-center w-full bg-gradient-to-r ${mode.color} hover:shadow-lg text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 shadow-md`}
