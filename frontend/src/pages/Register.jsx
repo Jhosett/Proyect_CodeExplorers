@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"; // eslint-disable-line no-unused-vars
 import { FaUser, FaEnvelope, FaLock, FaGlobe, FaCalendarAlt, FaEyeSlash, FaEye, FaCity } from "react-icons/fa";
 import { IoHome } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,13 @@ export default function Register() {
   const [birthDate, setBirthDate] = useState("");
   const [birthDateError, setBirthDateError] = useState("");
 
+  // Bloquear caracteres no permitidos en campos de solo texto
+  const onlyTextKey = (e) => {
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]$/.test(e.key) && e.key !== "Backspace" && e.key !== "Delete" && e.key !== "ArrowLeft" && e.key !== "ArrowRight" && e.key !== "Tab") {
+      e.preventDefault();
+    }
+  };
+
   // Validar nombre de usuario
   const validateUsername = (value) => {
     if (!value.trim()) {
@@ -62,7 +69,7 @@ export default function Register() {
     if (!value.trim()) {
       setPasswordError("La contraseña es requerida");
     } else {
-      const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
+      const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]).{8,}$/;
       if (!regex.test(value)) {
         setPasswordError("Debe tener 8 caracteres, una mayúscula, un número y un símbolo");
       } else {
@@ -86,6 +93,8 @@ export default function Register() {
   const validateCountry = (value) => {
     if (!value.trim()) {
       setCountryError("El país es requerido");
+    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(value)) {
+      setCountryError("El país solo debe contener letras");
     } else {
       setCountryError("");
     }
@@ -95,6 +104,8 @@ export default function Register() {
   const validateCity = (value) => {
     if (!value.trim()) {
       setCityError("La ciudad es requerida");
+    } else if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(value)) {
+      setCityError("La ciudad solo debe contener letras");
     } else {
       setCityError("");
     }
@@ -104,6 +115,19 @@ export default function Register() {
   const validateBirthDate = (value) => {
     if (!value) {
       setBirthDateError("La fecha de nacimiento es requerida");
+      return;
+    }
+    const today = new Date();
+    const birth = new Date(value);
+    const age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate()) ? age - 1 : age;
+    if (birth > today) {
+      setBirthDateError("La fecha no puede ser en el futuro");
+    } else if (actualAge < 13) {
+      setBirthDateError("Debes tener al menos 13 años");
+    } else if (actualAge > 120) {
+      setBirthDateError("Por favor, ingresa una fecha válida");
     } else {
       setBirthDateError("");
     }
@@ -134,7 +158,6 @@ export default function Register() {
   // Enviar datos a Firebase
   const handleRegister = async () => {
     if (isPersonalTabValid) {
-      console.log("Starting registration process...");
       try {
         const userData = {
           username,
@@ -145,9 +168,7 @@ export default function Register() {
           birthDate
         };
         
-        console.log("User data to register:", { ...userData, password: "[HIDDEN]" });
         const result = await registerUser(userData);
-        console.log("Registration result:", result);
         //Mensaje emergente de Sweet Alert
         if (result.success) {
           Swal.fire({
@@ -266,6 +287,7 @@ export default function Register() {
                 type="text"
                 placeholder="Nombre de usuario"
                 value={username}
+                onKeyDown={onlyTextKey}
                 onChange={(e) => {
                   setUsername(e.target.value);
                   validateUsername(e.target.value);
@@ -397,6 +419,7 @@ export default function Register() {
                 type="text"
                 placeholder="País"
                 value={country}
+                onKeyDown={onlyTextKey}
                 onChange={(e) => {
                   setCountry(e.target.value);
                   validateCountry(e.target.value);
@@ -419,6 +442,7 @@ export default function Register() {
                 type="text"
                 placeholder="Ciudad"
                 value={city}
+                onKeyDown={onlyTextKey}
                 onChange={(e) => {
                   setCity(e.target.value);
                   validateCity(e.target.value);
@@ -436,7 +460,10 @@ export default function Register() {
             
             {/* Input de fecha */}
             <div className="relative">
-              <FaCalendarAlt className="absolute top-3 left-3 text-gray-400" />
+              <label className="block text-gray-300 text-sm font-medium mb-1 ml-1">
+                Fecha de nacimiento
+              </label>
+              <FaCalendarAlt className="absolute top-9 left-3 text-gray-400" />
               <input
                 type="date"
                 value={birthDate}
