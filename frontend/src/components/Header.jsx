@@ -75,7 +75,7 @@ export default function Header() {
   // Items del header con sus rutas y atributos
   const navItems = [
     { href: "/", label: "Inicio", icon: IoHome },
-    { href: "/game-modes", label: "Modos de Juego", icon: IoGameController },
+    { href: "/game-modes", label: "Modulos de aprendizaje", icon: IoGameController },
     { href: "#ranking", label: "Ranking", icon: IoTrophy },
     { href: "#about", label: "Sobre el juego", icon: IoInformationCircle },
   ];
