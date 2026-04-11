@@ -115,7 +115,7 @@ export default function GameLevel() {
 
       <LevelHeader />
 
-      <div className="grid grid-cols-[1fr_180px] flex-1">
+      <div className="grid grid-cols-[1fr_280px] flex-1">
 
         <ExecutionPath
           pathBlocks={pathBlocks}

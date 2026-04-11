@@ -1,10 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FaLock, FaPlay, FaArrowLeft } from 'react-icons/fa';
 
 const LearningPath = ({ selectedSection, onBack }) => {
   if (!selectedSection) return null;
 
+  const navigate = useNavigate();
   const stages = selectedSection.stages;
 
 
@@ -103,9 +105,7 @@ const LearningPath = ({ selectedSection, onBack }) => {
               <div
                 className="relative cursor-pointer"
                 onClick={() => {
-                  if (isUnlocked) {
-                    console.log(`[Seleccionado] Iniciando nivel: ${stage.title} (${stage.id})`);
-                  }
+                  if (isUnlocked) navigate('/ParsonsBlocks');
                 }}
               >
                 <div
