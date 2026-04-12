@@ -6,7 +6,7 @@ import errorInformaticoImg from '../assets/error-informatico.png';
 export default function Footer() {
   const navItems = [
     { href: "#home", label: "Inicio", icon: IoHome },
-    { href: "#modes", label: "Modos de Juego", icon: IoGameController },
+    { href: "#modes", label: "Modulos de aprendizaje", icon: IoGameController },
     { href: "#ranking", label: "Ranking", icon: IoTrophy },
     { href: "#about", label: "Sobre el juego", icon: IoInformationCircle }
   ];
@@ -34,12 +34,12 @@ export default function Footer() {
                 className="w-10 h-10 rounded-lg shadow-md"
               />
               <h3 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Bug-Hunts
+                Code-Explorers
               </h3>
             </motion.div>
             <p className="text-gray-400 mb-6 max-w-md">
-              Plataforma educativa gamificada para desarrollar habilidades de depuración. 
-              Aprende programación cazando bugs de forma divertida.
+              Plataforma educativa gamificada para desarrollar pensamiento computacional. 
+              Aprende programación de forma divertida a través de actividades interactivas.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (
@@ -107,7 +107,7 @@ export default function Footer() {
         <div className="border-t border-purple-700/30 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-400 text-sm">
-              © 2025 Bug-Hunts. Todos los derechos reservados.
+              © 2025 Code-Explorers. Todos los derechos reservados.
             </p>
             <motion.p 
               className="text-gray-400 text-sm flex items-center gap-1"

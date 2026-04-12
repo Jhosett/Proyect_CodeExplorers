@@ -3,19 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { motion } from 'framer-motion';
 import errorInformaticoImg from '../assets/error-informatico.png';
 import { IoLogoGameControllerA } from "react-icons/io";
-import { FaRankingStar } from "react-icons/fa6";
+import { FaBookBookmark } from "react-icons/fa6";
 import { BsFillBugFill } from "react-icons/bs";
 import { IoShieldCheckmarkSharp } from "react-icons/io5";
-
-
-
+import DotGridBackground from "./DotGridBackground";
 
 export default function Banner() {
   const navigate = useNavigate();
   
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] overflow-hidden">
-      {/* Animated background elements */}
+    <DotGridBackground>
+      <section className="relative min-h-screen overflow-hidden">
+        {/* Animated background elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-10 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
         <div className="absolute top-40 right-20 w-1 h-1 bg-purple-400 rounded-full animate-ping" />
@@ -48,9 +47,9 @@ export default function Banner() {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
             >
-              Conviértete en un{' '}
-              <span className="bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
-                Cazador de Bugs
+              Aprende a programar{' '}
+              <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 bg-clip-text text-transparent">
+                jugando con código
               </span>
             </motion.h1>
 
@@ -60,8 +59,8 @@ export default function Banner() {
               transition={{ delay: 0.6, duration: 0.6 }}
               className="text-lg sm:text-xl text-gray-300 mb-8 max-w-2xl"
             >
-              Desarrolla tus habilidades de depuración encontrando y corrigiendo errores en códigos mágicos. 
-              ¡Aprende programación de forma divertida con retos cronometrados y recompensas!
+              Domina los fundamentos básicos de la programación a través de niveles interactivos, bloques de código
+              y retos de pensamiento computacional diseñados para ti a través de una experiencia de juego apoyado en Python.
             </motion.p>
 
             <motion.div
@@ -76,9 +75,9 @@ export default function Banner() {
                 onClick={() => navigate("/game-modes")}
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-2xl transition-all duration-300"
               >
-                <div className='flex items-center gap-3'>
+                <div className='flex items-center justify-center gap-3'>
                   <IoLogoGameControllerA className='w-8 h-8' />
-                  <span>Comienza a cazar!!!</span>
+                  <span>Comienza a jugar!!!</span>
                 </div>
               </motion.button>
               <motion.button
@@ -86,9 +85,9 @@ export default function Banner() {
                 whileTap={{ scale: 0.95 }}
                 className="border-2 border-purple-500 text-purple-300 hover:bg-purple-500/10 px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300"
               >
-                <div className='flex items-center gap-3'>
-                  <FaRankingStar className='w-8 h-8' />
-                  <span>Ranklist</span>
+                <div className='flex items-center justify-center gap-3'>
+                  <FaBookBookmark className='w-8 h-8' />
+                  <span>Cómo funciona</span>
                 </div>
               </motion.button>
             </motion.div>
@@ -101,71 +100,136 @@ export default function Banner() {
               className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-purple-700/30"
             >
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-yellow-400">500+</div>
-                <div className="text-sm text-gray-400">Retos Disponibles</div>
+                <div className="text-2xl sm:text-3xl font-bold text-yellow-400">12+</div>
+                <div className="text-sm text-gray-400">Niveles Disponibles</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-green-400">1.2K+</div>
-                <div className="text-sm text-gray-400">Cazadores Activos</div>
+                <div className="text-2xl sm:text-3xl font-bold text-green-400">5</div>
+                <div className="text-sm text-gray-400">Conceptos</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-purple-400">95%</div>
-                <div className="text-sm text-gray-400">Tasa de Éxito</div>
+                <div className="text-2xl sm:text-3xl font-bold text-purple-400">100%</div>
+                <div className="text-sm text-gray-400">Gratuito</div>
               </div>
             </motion.div>
           </motion.div>
 
-          {/* Visual Element */}
+          {/* Visual Element — Pixel Art Showcase */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
             className="relative flex justify-center lg:justify-end"
           >
-            <div className="relative">
-              {/* Glowing circle */}
+            <div className="relative w-[340px] h-[400px] sm:w-[400px] sm:h-[460px]">
+
+              {/* Pulsing glow backdrop */}
               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 blur-xl scale-110"
+                animate={{ scale: [1, 1.08, 1], opacity: [0.3, 0.5, 0.3] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 rounded-3xl bg-gradient-to-br from-purple-600/20 via-blue-600/15 to-emerald-600/20 blur-2xl"
               />
-              
-              {/* Main visual */}
+
+              {/* Terminal-style frame */}
+              <div className="relative w-full h-full bg-slate-900/80 backdrop-blur-md border border-slate-700/60 rounded-2xl shadow-2xl overflow-hidden">
+
+                {/* Terminal top bar */}
+                <div className="flex items-center gap-2 px-4 py-3 bg-slate-800/90 border-b border-slate-700/50">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                  <span className="ml-3 text-xs text-slate-500 font-mono">code_explorer.py</span>
+                </div>
+
+                {/* Fake code lines (background decoration) */}
+                <div className="px-5 pt-4 space-y-2 font-mono text-xs">
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6, duration: 0.4 }}
+                    className="flex gap-3"
+                  >
+                    <span className="text-slate-600 select-none w-5 text-right">1</span>
+                    <span><span className="text-purple-400">def</span> <span className="text-blue-300">aprender</span><span className="text-slate-400">(</span><span className="text-orange-300">concepto</span><span className="text-slate-400">):</span></span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.8, duration: 0.4 }}
+                    className="flex gap-3"
+                  >
+                    <span className="text-slate-600 select-none w-5 text-right">2</span>
+                    <span className="pl-4"><span className="text-purple-400">if</span> <span className="text-blue-300">concepto</span> <span className="text-slate-400">==</span> <span className="text-emerald-400">"Python"</span><span className="text-slate-400">:</span></span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.0, duration: 0.4 }}
+                    className="flex gap-3"
+                  >
+                    <span className="text-slate-600 select-none w-5 text-right">3</span>
+                    <span className="pl-8"><span className="text-yellow-300">print</span><span className="text-slate-400">(</span><span className="text-emerald-400">"¡A jugar!"</span><span className="text-slate-400">)</span></span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 0.4, x: 0 }}
+                    transition={{ delay: 1.2, duration: 0.4 }}
+                    className="flex gap-3"
+                  >
+                    <span className="text-slate-600 select-none w-5 text-right">4</span>
+                    <span className="text-slate-600">│</span>
+                  </motion.div>
+                </div>
+
+                {/* Character area — replace src with your pixel art */}
+                <div className="absolute bottom-8 left-0 right-0 flex justify-center items-end">
+                  {/* Ground reflection */}
+                  <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-purple-500/10 to-transparent" />
+
+                  <motion.img
+                    src={errorInformaticoImg}
+                    alt="Code Explorer Character"
+                    className="relative z-10 w-40 h-40 sm:w-52 sm:h-52 object-contain drop-shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+                    animate={{ y: [-6, 6, -6] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ imageRendering: "pixelated" }}
+                  />
+                </div>
+              </div>
+
+              {/* Floating badge — top right */}
               <motion.div
-                whileHover={{ scale: 1.05, rotate: 5 }}
-                className="relative bg-gradient-to-br from-purple-900/50 to-pink-900/50 backdrop-blur-sm border border-purple-500/30 rounded-3xl p-8 shadow-2xl"
+                animate={{ y: [-5, 5, -5], rotate: [0, 6, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-3 -right-3 z-20 bg-gradient-to-r from-yellow-400 to-amber-500 text-black px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-yellow-500/30"
               >
-                <motion.img
-                  src={errorInformaticoImg}
-                  alt="Bug Hunter"
-                  className="w-48 h-48 sm:w-64 sm:h-64 mx-auto"
-                  animate={{ y: [-10, 10, -10] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                />
-                
-                {/* Floating elements */}
-                <motion.div
-                  animate={{ y: [-5, 5, -5], rotate: [0, 10, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-4 -right-4 bg-yellow-400 text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg"
-                >
-                  <div className='flex items-center gap-2'>
-                    <BsFillBugFill className='w-6 h-6' />
-                    <span>+100</span>
-                  </div>
-                </motion.div>
-                
-                <motion.div
-                  animate={{ y: [5, -5, 5], rotate: [0, -10, 0] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute -bottom-2 -left-4 bg-green-400 text-black px-3 py-1 rounded-full text-sm font-bold shadow-lg"
-                >
-                  <div className='flex items-center gap-2 text-white'>
-                    <IoShieldCheckmarkSharp className='w-6 h-6' />
-                    <span>Fixed!</span>
-                  </div>
-                </motion.div>
+                <div className="flex items-center gap-1.5">
+                  <BsFillBugFill className="w-4 h-4" />
+                  <span>+100 XP</span>
+                </div>
               </motion.div>
+
+              {/* Floating badge — bottom left */}
+              <motion.div
+                animate={{ y: [4, -4, 4], rotate: [0, -6, 0] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="absolute -bottom-3 -left-3 z-20 bg-gradient-to-r from-emerald-400 to-green-500 text-white px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-emerald-500/30"
+              >
+                <div className="flex items-center gap-1.5">
+                  <IoShieldCheckmarkSharp className="w-4 h-4" />
+                  <span>Nivel completado</span>
+                </div>
+              </motion.div>
+
+              {/* Floating code tag — mid left */}
+              <motion.div
+                animate={{ y: [-3, 3, -3], x: [-2, 2, -2] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute top-1/3 -left-8 z-20 bg-slate-800/90 backdrop-blur-sm border border-slate-600/50 text-purple-300 px-3 py-1.5 rounded-lg text-xs font-mono shadow-lg"
+              >
+                print("Hola 👋")
+              </motion.div>
+
             </div>
           </motion.div>
         </div>
@@ -177,6 +241,7 @@ export default function Banner() {
           <path d="M0,60 C300,120 900,0 1200,60 L1200,120 L0,120 Z" />
         </svg>
       </div>
-    </section>
+      </section>
+    </DotGridBackground>
   );
 }
