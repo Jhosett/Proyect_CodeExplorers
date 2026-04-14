@@ -14,13 +14,6 @@ export default function Banner() {
   return (
     <DotGridBackground>
       <section className="relative min-h-screen overflow-hidden">
-        {/* Animated background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-2 h-2 bg-yellow-400 rounded-full animate-pulse" />
-        <div className="absolute top-40 right-20 w-1 h-1 bg-purple-400 rounded-full animate-ping" />
-        <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" />
-        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-blue-400 rounded-full animate-pulse" />
-      </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -114,7 +107,7 @@ export default function Banner() {
             </motion.div>
           </motion.div>
 
-          {/* Visual Element — Pixel Art Showcase */}
+          {/* Elemento Visual del Banner - Espacio para agregar imagen del logo */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -196,40 +189,6 @@ export default function Banner() {
                   />
                 </div>
               </div>
-
-              {/* Floating badge — top right */}
-              <motion.div
-                animate={{ y: [-5, 5, -5], rotate: [0, 6, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-3 -right-3 z-20 bg-gradient-to-r from-yellow-400 to-amber-500 text-black px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-yellow-500/30"
-              >
-                <div className="flex items-center gap-1.5">
-                  <BsFillBugFill className="w-4 h-4" />
-                  <span>+100 XP</span>
-                </div>
-              </motion.div>
-
-              {/* Floating badge — bottom left */}
-              <motion.div
-                animate={{ y: [4, -4, 4], rotate: [0, -6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -bottom-3 -left-3 z-20 bg-gradient-to-r from-emerald-400 to-green-500 text-white px-3 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-emerald-500/30"
-              >
-                <div className="flex items-center gap-1.5">
-                  <IoShieldCheckmarkSharp className="w-4 h-4" />
-                  <span>Nivel completado</span>
-                </div>
-              </motion.div>
-
-              {/* Floating code tag — mid left */}
-              <motion.div
-                animate={{ y: [-3, 3, -3], x: [-2, 2, -2] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute top-1/3 -left-8 z-20 bg-slate-800/90 backdrop-blur-sm border border-slate-600/50 text-purple-300 px-3 py-1.5 rounded-lg text-xs font-mono shadow-lg"
-              >
-                print("Hola 👋")
-              </motion.div>
-
             </div>
           </motion.div>
         </div>
