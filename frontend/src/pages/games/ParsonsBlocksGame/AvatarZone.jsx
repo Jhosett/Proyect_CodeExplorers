@@ -1,18 +1,24 @@
+import { FaBug } from "react-icons/fa";
+
 export default function AvatarZone({ step, total }) {
 
   return (
 
-    <div className="bg-slate-800 border-l border-slate-700 flex flex-col items-center p-4">
+    <div
+      className="bg-slate-800 border-t md:border-t-0 md:border-l border-slate-700
+                 flex md:flex-col items-center justify-between md:justify-start
+                 p-3 md:p-4 gap-3"
+    >
 
       <div className="text-xs text-slate-400">
         Bug Hunter
       </div>
 
-      <div className="text-3xl mt-2">
-        🐛
+      <div className="text-3xl md:mt-2 text-emerald-400">
+        <FaBug />
       </div>
 
-      <div className="mt-auto text-center text-xs text-slate-400">
+      <div className="md:mt-auto text-center text-xs text-slate-400">
 
         Paso
 
