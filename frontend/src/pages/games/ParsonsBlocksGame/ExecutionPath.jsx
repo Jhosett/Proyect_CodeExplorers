@@ -1,4 +1,13 @@
-export default function ExecutionPath({ pathBlocks, removeBlock, onPathDragStart, onDropToPath, dragOverIndex, setDragOverIndex }) {
+import CodeBlock from "./CodeBlock";
+
+export default function ExecutionPath({
+  pathBlocks,
+  removeBlock,
+  onPathDragStart,
+  onDropToPath,
+  dragOverIndex,
+  setDragOverIndex,
+}) {
 
   const handleDragOver = (e, index) => {
     e.preventDefault();
@@ -6,15 +15,14 @@ export default function ExecutionPath({ pathBlocks, removeBlock, onPathDragStart
   };
 
   return (
+    <div className="p-3 sm:p-4">
 
-    <div className="p-4">
-
-      <div className="text-xs uppercase text-slate-400 mb-2">
+      <div className="text-xs uppercase text-slate-400 mb-2 sm:mb-3 tracking-widest">
         Ruta de ejecución
       </div>
 
       <div
-        className="bg-slate-800 border border-dashed border-slate-600 rounded-lg min-h-[220px] p-3 flex flex-col gap-2"
+        className="bg-slate-800 border border-dashed border-slate-600 rounded-lg min-h-[160px] md:min-h-[220px] p-2 sm:p-3 flex flex-col gap-1"
         onDragOver={(e) => handleDragOver(e, pathBlocks.length)}
         onDrop={() => onDropToPath(pathBlocks.length)}
       >
@@ -28,7 +36,7 @@ export default function ExecutionPath({ pathBlocks, removeBlock, onPathDragStart
         {pathBlocks.map((block, index) => (
           <div key={block.id}>
 
-            {/* Drop indicator line above each block */}
+            {/* Drop indicator line */}
             <div
               onDragOver={(e) => handleDragOver(e, index)}
               onDrop={(e) => { e.stopPropagation(); onDropToPath(index); }}
@@ -37,35 +45,22 @@ export default function ExecutionPath({ pathBlocks, removeBlock, onPathDragStart
               }`}
             />
 
-            <div
+            {/* Block card */}
+            <CodeBlock
+              block={block}
+              stepNumber={index + 1}
+              onRemove={() => removeBlock(block.id)}
+              className="w-fit"
               draggable
               onDragStart={() => onPathDragStart(block, index)}
               onDragEnd={() => setDragOverIndex(null)}
               onDragOver={(e) => handleDragOver(e, index)}
               onDrop={(e) => { e.stopPropagation(); onDropToPath(index); }}
-              className="flex items-center gap-2 bg-slate-700 hover:bg-slate-600 p-2 rounded cursor-grab active:cursor-grabbing select-none"
-            >
-
-              <div className="w-5 h-5 bg-slate-600 rounded-full flex items-center justify-center text-xs">
-                {index + 1}
-              </div>
-
-              <div className="flex-1">
-                {block.icon} {block.label}
-              </div>
-
-              <button
-                onClick={() => removeBlock(block.id)}
-                className="text-red-400 hover:text-red-300"
-              >
-                ✕
-              </button>
-
-            </div>
+            />
           </div>
         ))}
 
-        {/* Drop indicator at the bottom */}
+        {/* Trailing drop indicator */}
         <div
           onDragOver={(e) => handleDragOver(e, pathBlocks.length)}
           onDrop={() => onDropToPath(pathBlocks.length)}
@@ -75,7 +70,6 @@ export default function ExecutionPath({ pathBlocks, removeBlock, onPathDragStart
         />
 
       </div>
-
     </div>
   );
 }

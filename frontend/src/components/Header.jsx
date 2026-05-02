@@ -100,7 +100,7 @@ export default function Header() {
             whileHover={{ rotate: 5 }}
           />
           <h1 className="text-xl sm:text-2xl font-bold tracking-wide bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Bug-Hunts
+            Code-Explorers
           </h1>
         </motion.div>
 
