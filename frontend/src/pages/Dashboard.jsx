@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { seedLevels } from "../scripts/seedLevels";
+import { getAllProgress } from "../services/progressService";
 import DotGridBackground from "../components/DotGridBackground";
 import Swal from "sweetalert2";
 import Header from "../components/Header";
@@ -43,6 +45,8 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [completedStages, setCompletedStages] = useState(0);
+  const [totalPoints, setTotalPoints] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -54,6 +58,11 @@ export default function Dashboard() {
           if (userDoc.exists()) {
             setUserData(userDoc.data());
           }
+          const progress = await getAllProgress(currentUser.uid);
+          const completedCount = Object.values(progress).filter(p => p.completed).length;
+          const pointsTotal = Object.values(progress).reduce((sum, p) => sum + (p.bestScore ?? 0), 0);
+          setCompletedStages(completedCount);
+          setTotalPoints(pointsTotal);
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
@@ -86,9 +95,45 @@ export default function Dashboard() {
     }
   };
 
+  const handleSeedLevels = async () => {
+    const confirm = await Swal.fire({
+      title: "¿Subir niveles a Firestore?",
+      text: "Esto sobreescribirá los niveles existentes en la base de datos.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, subir",
+      cancelButtonText: "Cancelar",
+      background: "#1E293B",
+      color: "#ffffff",
+      confirmButtonColor: "#8B5CF6",
+      cancelButtonColor: "#475569",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    try {
+      await seedLevels();
+      Swal.fire({
+        title: "¡Seed completado!",
+        text: "Los niveles fueron subidos correctamente a Firestore.",
+        icon: "success",
+        background: "#1E293B",
+        color: "#ffffff",
+        confirmButtonColor: "#8B5CF6",
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error",
+        text: "Ocurrió un error al subir los niveles.",
+        icon: "error",
+        background: "#1E293B",
+        color: "#ffffff",
+        confirmButtonColor: "#ef4444",
+      });
+    }
+  };
+
   // Placeholder progress values (will be wired to Firestore later)
-  const completedStages = userData?.completedStages ?? 0;
-  const totalPoints = userData?.points ?? 0;
   const currentStreak = userData?.streak ?? 0;
   const progressPercent = Math.round((completedStages / TOTAL_STAGES) * 100);
 
@@ -399,6 +444,38 @@ export default function Dashboard() {
               </div>
             </motion.div>
           </div>
+
+          {/* ── Admin Panel (temporal — quitar gate isAdmin para seed) ── */}
+          {(
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUp}
+              custom={3}
+              className="mt-6"
+            >
+              <div className="bg-slate-800/60 backdrop-blur-lg rounded-2xl p-6 border border-red-500/20">
+                <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
+                  Panel de Administrador
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={handleSeedLevels}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl
+                               bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30
+                               hover:border-purple-500/60 text-purple-300 hover:text-white
+                               text-sm font-semibold transition-all"
+                  >
+                    ↑ Subir niveles a Firestore
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
         </div>
       </div>
     </DotGridBackground>
