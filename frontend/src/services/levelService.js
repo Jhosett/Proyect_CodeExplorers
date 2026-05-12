@@ -1,6 +1,6 @@
 
 import { db } from "../firebase/firebaseConfig";
-import { doc, getDoc, collection, query, where, getDocs, orderBy }
+import { doc, getDoc, collection, query, where, getDocs }
 from "firebase/firestore";
 
 
@@ -11,12 +11,21 @@ from "firebase/firestore";
   }
 
   export async function getLevelsByStage(stageId) {
-
    const q = query(
      collection(db, "levels"),
-     where("stageId", "==", stageId),
-     orderBy("order")
+     where("stageId", "==", stageId)
    );
    const snap = await getDocs(q);
-   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+   const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+   return docs.sort((a, b) => (a.order || 0) - (b.order || 0));
+  }
+
+  export async function getLevelsBySection(sectionId) {
+    const q = query(
+      collection(db, "levels"),
+      where("sectionId", "==", sectionId)
+    );
+    const snap = await getDocs(q);
+    const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    return docs.sort((a, b) => (a.order || 0) - (b.order || 0));
   }
