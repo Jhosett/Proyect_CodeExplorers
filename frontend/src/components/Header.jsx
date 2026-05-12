@@ -75,7 +75,7 @@ export default function Header() {
   // Items del header con sus rutas y atributos
   const navItems = [
     { href: "/", label: "Inicio", icon: IoHome },
-    { href: "/game-modes", label: "Modos de Juego", icon: IoGameController },
+    { href: "/game-modes", label: "Modulos de aprendizaje", icon: IoGameController },
     { href: "#ranking", label: "Ranking", icon: IoTrophy },
     { href: "#about", label: "Sobre el juego", icon: IoInformationCircle },
   ];
@@ -100,7 +100,7 @@ export default function Header() {
             whileHover={{ rotate: 5 }}
           />
           <h1 className="text-xl sm:text-2xl font-bold tracking-wide bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Bug-Hunts
+            Code-Explorers
           </h1>
         </motion.div>
 
