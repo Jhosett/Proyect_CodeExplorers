@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   FaUser, FaGlobe, FaCity, FaCalendarAlt,
-  FaSignOutAlt, FaFire, FaCode, FaStar,
+  FaSignOutAlt, FaFire, FaCode, FaStar, FaEdit, FaSave, FaTimes, FaImage,
 } from "react-icons/fa";
 import {
   HiAcademicCap, HiLightningBolt,
@@ -15,7 +15,7 @@ import { BiTargetLock } from "react-icons/bi";
 import { IoLogoGameControllerA } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase/firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { seedLevels } from "../scripts/seedLevels";
 import { getAllProgress } from "../services/progressService";
@@ -48,6 +48,14 @@ export default function Dashboard() {
   const [completedStages, setCompletedStages] = useState(0);
   const [totalPoints, setTotalPoints] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editData, setEditData] = useState({
+    username: "",
+    country: "",
+    city: "",
+    birthDate: "",
+    photoURL: ""
+  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -92,6 +100,62 @@ export default function Dashboard() {
       navigate("/");
     } catch (error) {
       console.error("Logout error:", error);
+    }
+  };
+
+  const handleEditToggle = () => {
+    if (!isEditing) {
+      setEditData({
+        username: userData?.username || "",
+        country: userData?.country || "",
+        city: userData?.city || "",
+        birthDate: userData?.birthDate || "",
+        photoURL: userData?.photoURL || ""
+      });
+    }
+    setIsEditing(!isEditing);
+  };
+
+  const handleSaveProfile = async () => {
+    if (!user) return;
+    
+    try {
+      await updateDoc(doc(db, "users", user.uid), {
+        username: editData.username,
+        country: editData.country,
+        city: editData.city,
+        birthDate: editData.birthDate,
+        photoURL: editData.photoURL
+      });
+
+      setUserData({
+        ...userData,
+        ...editData
+      });
+
+      setIsEditing(false);
+
+      Swal.fire({
+        title: "¡Perfil Actualizado!",
+        text: "Tus datos han sido guardados correctamente.",
+        icon: "success",
+        background: "#1E293B",
+        color: "#ffffff",
+        confirmButtonColor: "#8B5CF6",
+        confirmButtonText: "Entendido",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      Swal.fire({
+        title: "Error",
+        text: "No se pudo actualizar el perfil.",
+        icon: "error",
+        background: "#1E293B",
+        color: "#ffffff",
+        confirmButtonColor: "#ef4444",
+      });
     }
   };
 
@@ -210,11 +274,39 @@ export default function Dashboard() {
               {/* Profile Card */}
               <div className="bg-slate-800/60 backdrop-blur-lg rounded-2xl shadow-2xl p-6 border border-white/10">
                 <div className="text-center mb-5">
-                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-600
-                                  rounded-full flex items-center justify-center mx-auto mb-3
-                                  shadow-lg shadow-purple-500/30 ring-2 ring-purple-400/30 ring-offset-2 ring-offset-slate-800">
-                    <FaUser className="text-2xl text-white" />
-                  </div>
+                  {isEditing ? (
+                    <div className="mb-4">
+                      <div className="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden shadow-lg shadow-purple-500/30 ring-2 ring-purple-400/30 ring-offset-2 ring-offset-slate-800">
+                        {editData.photoURL ? (
+                          <img src={editData.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+                            <FaUser className="text-2xl text-white" />
+                          </div>
+                        )}
+                      </div>
+                      <div className="relative mb-3">
+                        <FaImage className="absolute top-3 left-3 text-gray-400 text-sm" />
+                        <input
+                          type="text"
+                          placeholder="URL de la imagen"
+                          value={editData.photoURL}
+                          onChange={(e) => setEditData({...editData, photoURL: e.target.value})}
+                          className="w-full pl-9 pr-3 py-2 bg-slate-900/50 border border-slate-700 rounded-lg text-white text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 mx-auto mb-3 rounded-full overflow-hidden shadow-lg shadow-purple-500/30 ring-2 ring-purple-400/30 ring-offset-2 ring-offset-slate-800">
+                      {userData?.photoURL ? (
+                        <img src={userData.photoURL} alt="Profile" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+                          <FaUser className="text-2xl text-white" />
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <h2 className="text-xl font-bold text-white">
                     {userData?.username || "Usuario"}
                   </h2>
@@ -228,45 +320,141 @@ export default function Dashboard() {
 
                 {/* Info rows */}
                 <div className="space-y-3">
-                  {[
-                    { icon: FaGlobe, label: "País", value: userData?.country },
-                    { icon: FaCity, label: "Ciudad", value: userData?.city },
-                    {
-                      icon: FaCalendarAlt,
-                      label: "Fecha de Nacimiento",
-                      value: userData?.birthDate
-                        ? new Date(userData.birthDate).toLocaleDateString()
-                        : null,
-                    },
-                  ].map(({ icon: Icon, label, value }) => (
-                    <div
-                      key={label}
-                      className="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg"
-                    >
-                      <Icon className="text-purple-400 shrink-0" />
-                      <div className="min-w-0">
-                        <p className="text-xs text-slate-500">{label}</p>
-                        <p className="text-sm text-white truncate">
-                          {value || "No especificado"}
-                        </p>
+                  {isEditing ? (
+                    <>
+                      <div className="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg">
+                        <FaUser className="text-purple-400 shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs text-slate-500 mb-1">Nombre de usuario</p>
+                          <input
+                            type="text"
+                            value={editData.username}
+                            onChange={(e) => setEditData({...editData, username: e.target.value})}
+                            className="w-full px-2 py-1 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                      <div className="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg">
+                        <FaGlobe className="text-purple-400 shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs text-slate-500 mb-1">País</p>
+                          <input
+                            type="text"
+                            value={editData.country}
+                            onChange={(e) => setEditData({...editData, country: e.target.value})}
+                            className="w-full px-2 py-1 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg">
+                        <FaCity className="text-purple-400 shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs text-slate-500 mb-1">Ciudad</p>
+                          <input
+                            type="text"
+                            value={editData.city}
+                            onChange={(e) => setEditData({...editData, city: e.target.value})}
+                            className="w-full px-2 py-1 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg">
+                        <FaCalendarAlt className="text-purple-400 shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs text-slate-500 mb-1">Fecha de Nacimiento</p>
+                          <input
+                            type="date"
+                            value={editData.birthDate}
+                            onChange={(e) => setEditData({...editData, birthDate: e.target.value})}
+                            className="w-full px-2 py-1 bg-slate-800 border border-slate-700 rounded text-white text-sm focus:ring-2 focus:ring-purple-500 outline-none"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    [
+                      { icon: FaGlobe, label: "País", value: userData?.country },
+                      { icon: FaCity, label: "Ciudad", value: userData?.city },
+                      {
+                        icon: FaCalendarAlt,
+                        label: "Fecha de Nacimiento",
+                        value: userData?.birthDate
+                          ? new Date(userData.birthDate + 'T00:00:00').toLocaleDateString()
+                          : null,
+                      },
+                    ].map(({ icon: Icon, label, value }) => (
+                      <div
+                        key={label}
+                        className="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg"
+                      >
+                        <Icon className="text-purple-400 shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-xs text-slate-500">{label}</p>
+                          <p className="text-sm text-white truncate">
+                            {value || "No especificado"}
+                          </p>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
 
-                {/* Logout */}
-                <motion.button
-                  onClick={handleLogout}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="w-full mt-5 flex items-center justify-center gap-2
-                             bg-red-500/10 hover:bg-red-500/20 border border-red-500/30
-                             text-red-400 hover:text-red-300 px-4 py-2.5 rounded-xl
-                             font-semibold text-sm transition-all"
-                >
-                  <FaSignOutAlt />
-                  Cerrar Sesión
-                </motion.button>
+                {/* Edit/Save/Cancel buttons */}
+                {isEditing ? (
+                  <div className="flex gap-2 mt-5">
+                    <motion.button
+                      onClick={handleSaveProfile}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="flex-1 flex items-center justify-center gap-2
+                                 bg-green-500/10 hover:bg-green-500/20 border border-green-500/30
+                                 text-green-400 hover:text-green-300 px-4 py-2.5 rounded-xl
+                                 font-semibold text-sm transition-all"
+                    >
+                      <FaSave />
+                      Guardar
+                    </motion.button>
+                    <motion.button
+                      onClick={handleEditToggle}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="flex-1 flex items-center justify-center gap-2
+                                 bg-gray-500/10 hover:bg-gray-500/20 border border-gray-500/30
+                                 text-gray-400 hover:text-gray-300 px-4 py-2.5 rounded-xl
+                                 font-semibold text-sm transition-all"
+                    >
+                      <FaTimes />
+                      Cancelar
+                    </motion.button>
+                  </div>
+                ) : (
+                  <>
+                    <motion.button
+                      onClick={handleEditToggle}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="w-full mt-5 flex items-center justify-center gap-2
+                                 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30
+                                 text-purple-400 hover:text-purple-300 px-4 py-2.5 rounded-xl
+                                 font-semibold text-sm transition-all"
+                    >
+                      <FaEdit />
+                      Editar Perfil
+                    </motion.button>
+                    <motion.button
+                      onClick={handleLogout}
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="w-full mt-3 flex items-center justify-center gap-2
+                                 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30
+                                 text-red-400 hover:text-red-300 px-4 py-2.5 rounded-xl
+                                 font-semibold text-sm transition-all"
+                    >
+                      <FaSignOutAlt />
+                      Cerrar Sesión
+                    </motion.button>
+                  </>
+                )}
               </div>
             </motion.div>
 
@@ -387,22 +575,6 @@ export default function Dashboard() {
                 </h3>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {[
-                    {
-                      icon: IoLogoGameControllerA,
-                      title: "Ruta de Aprendizaje",
-                      desc: "Explora los módulos y avanza en tu camino",
-                      gradient: "from-purple-500 to-indigo-600",
-                      border: "border-purple-500/30 hover:border-purple-500/60",
-                      onClick: () => navigate("/game-modes"),
-                    },
-                    {
-                      icon: FaCode,
-                      title: "Parsons Blocks",
-                      desc: "Ordena bloques de código para aprender",
-                      gradient: "from-cyan-500 to-blue-600",
-                      border: "border-cyan-500/30 hover:border-cyan-500/60",
-                      onClick: () => navigate("/ParsonsBlocks"),
-                    },
                     {
                       icon: FaRankingStar,
                       title: "Ranking",

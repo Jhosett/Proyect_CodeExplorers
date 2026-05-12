@@ -44,7 +44,7 @@ export default function CodeBlock({
     <div
       {...rest}
       className={`
-        flex items-center gap-2 sm:gap-3 pl-2.5 sm:pl-3 pr-3 sm:pr-4 py-1.5 sm:py-2
+        flex items-center gap-1.5 sm:gap-2 md:gap-3 pl-2 sm:pl-2.5 md:pl-3 pr-2 sm:pr-3 md:pr-4 py-1.5 sm:py-2
         rounded-lg border-l-4 select-none transition-all shrink-0
         ${style.border}
         ${used
@@ -57,8 +57,8 @@ export default function CodeBlock({
       {/* Step badge (path mode only) */}
       {stepNumber != null && (
         <div
-          className={`w-5 h-5 rounded-full flex items-center justify-center
-                      text-[10px] font-bold shrink-0 ${style.step}`}
+          className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center
+                      text-[9px] sm:text-[10px] font-bold shrink-0 ${style.step}`}
         >
           {stepNumber}
         </div>
@@ -66,18 +66,18 @@ export default function CodeBlock({
 
       {/* Icon (react-icon based on block.type) */}
       <span
-        className={`text-lg w-8 h-8 flex items-center justify-center
+        className={`text-base sm:text-lg w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center
                     rounded-md shrink-0 ${style.iconBg}`}
       >
         {IconComponent && <IconComponent />}
       </span>
 
       {/* Label + code */}
-      <div className="flex flex-col min-w-0">
-        <span className={`text-sm font-medium text-white ${used ? "line-through" : ""}`}>
+      <div className="flex flex-col min-w-0 flex-1">
+        <span className={`text-xs sm:text-sm font-medium text-white truncate ${used ? "line-through" : ""}`}>
           {block.label}
         </span>
-        <span className={`text-xs font-mono ${style.subText}`}>
+        <span className={`text-[10px] sm:text-xs font-mono truncate ${style.subText}`}>
           {block.sub}
         </span>
       </div>
@@ -86,9 +86,9 @@ export default function CodeBlock({
       {onRemove && (
         <button
           onClick={(e) => { e.stopPropagation(); onRemove(); }}
-          className="ml-auto text-slate-500 hover:text-red-400 transition-colors shrink-0"
+          className="ml-auto text-slate-500 hover:text-red-400 transition-colors shrink-0 p-1"
         >
-          <IoClose className="text-base" />
+          <IoClose className="text-sm sm:text-base" />
         </button>
       )}
     </div>

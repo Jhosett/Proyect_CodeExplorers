@@ -5,13 +5,13 @@ export default function BlockTray({ blocks, onTrayDragStart, setDragOverIndex, p
   const alreadyInPath = (id) => pathBlocks.some(b => b.id === id);
 
   return (
-    <div className="bg-slate-800 border-t border-slate-700 p-3 sm:p-5 min-h-[100px] sm:min-h-[120px] max-h-[150px] sm:max-h-[180px] flex flex-col">
+    <div className="bg-slate-800 border-t border-slate-700 p-2 sm:p-3 md:p-4 min-h-[120px] sm:min-h-[140px] md:min-h-[160px] max-h-[180px] sm:max-h-[200px] md:max-h-[220px] flex flex-col">
 
-      <div className="text-xs uppercase text-slate-400 mb-2 sm:mb-3 tracking-widest">
+      <div className="text-[10px] sm:text-xs uppercase text-slate-400 mb-1.5 sm:mb-2 md:mb-3 tracking-widest font-semibold">
         Bandeja de bloques
       </div>
 
-      <div className="flex flex-nowrap sm:flex-wrap gap-2 sm:gap-3 overflow-x-auto sm:overflow-y-auto pb-1 sm:pb-0 pr-0 sm:pr-1">
+      <div className="flex flex-nowrap gap-1.5 sm:gap-2 md:gap-3 overflow-x-auto overflow-y-hidden pb-1 sm:pb-2">
         {blocks.map(block => {
           const used = alreadyInPath(block.id);
 
