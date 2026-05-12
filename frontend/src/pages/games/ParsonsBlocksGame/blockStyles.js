@@ -2,6 +2,27 @@
 // Single source of truth used by CodeBlock, BlockTray, and ExecutionPath.
 
 export const TYPE_STYLES = {
+  // ── Module 1: Logic (no code) ──────────────────────────
+  action: {
+    border: "border-l-cyan-500",
+    iconBg: "bg-cyan-500/20 text-cyan-300",
+    subText: "text-cyan-400",
+    step: "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40",
+  },
+  check: {
+    border: "border-l-amber-500",
+    iconBg: "bg-amber-500/20 text-amber-300",
+    subText: "text-amber-400",
+    step: "bg-amber-500/20 text-amber-300 border border-amber-500/40",
+  },
+  result: {
+    border: "border-l-emerald-500",
+    iconBg: "bg-emerald-500/20 text-emerald-300",
+    subText: "text-emerald-400",
+    step: "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40",
+  },
+
+  // ── Module 2+: Code (Python) ───────────────────────────
   print: {
     border: "border-l-violet-500",
     iconBg: "bg-violet-500/20 text-violet-300",

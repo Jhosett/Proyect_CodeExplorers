@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowLeft } from "react-icons/fa";
 import { HiAcademicCap } from "react-icons/hi";
@@ -32,7 +32,15 @@ const cardVariants = {
 
 const GameModesPage = () => {
   const navigate = useNavigate();
+  const { sectionId } = useParams();
   const [selectedSection, setSelectedSection] = useState(null);
+
+  useEffect(() => {
+    if (sectionId) {
+      const found = sections.find(s => s.id === sectionId);
+      if (found) setSelectedSection(found);
+    }
+  }, [sectionId]);
 
   const mappedSections = sections.map((section, index) => {
     const styleSource = gameModes[index % gameModes.length];
@@ -156,7 +164,7 @@ const GameModesPage = () => {
         >
           <LearningPath
             selectedSection={selectedSection}
-            onBack={() => setSelectedSection(null)}
+            onBack={() => { setSelectedSection(null); navigate("/game-modes"); }}
           />
         </motion.div>
       )}

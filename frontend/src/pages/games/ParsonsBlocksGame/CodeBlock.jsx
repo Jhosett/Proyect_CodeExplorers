@@ -1,6 +1,6 @@
 import { getBlockStyle } from "./blockStyles";
 import { HiSpeakerWave } from "react-icons/hi2";
-import { FaCube, FaReply } from "react-icons/fa";
+import { FaCube, FaReply, FaArrowRight, FaSearch, FaCheck } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 
 /**
@@ -8,6 +8,11 @@ import { IoClose } from "react-icons/io5";
  * Extensible: add new types here as the game grows.
  */
 const TYPE_ICONS = {
+  // Module 1: Logic
+  action: FaArrowRight,
+  check:  FaSearch,
+  result: FaCheck,
+  // Module 2+: Code
   print:  HiSpeakerWave,
   var:    FaCube,
   return: FaReply,

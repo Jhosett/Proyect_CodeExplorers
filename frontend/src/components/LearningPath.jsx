@@ -16,7 +16,7 @@ const moduleStyles = {
 };
 
 /* ─── Animated stage card ────────────────────────────────────── */
-const StageCard = ({ stage, index, total, navigate }) => {
+const StageCard = ({ stage, index, total, navigate, sectionId }) => {
   const isUnlocked = stage.isUnlocked;
   const isExpert   = stage.moduleType === 'expert';
   const style      = moduleStyles[stage.moduleType] || moduleStyles.logic;
@@ -51,7 +51,7 @@ const StageCard = ({ stage, index, total, navigate }) => {
           initial={{ scale: 0 }}
           animate={isInView ? { scale: 1 } : {}}
           transition={{ delay: 0.15, type: 'spring', stiffness: 260, damping: 20 }}
-          onClick={() => isUnlocked && navigate('/ParsonsBlocks')}
+          onClick={() => isUnlocked && navigate(`/ParsonsBlocks?sectionId=${sectionId}`)}
           className={`relative w-14 h-14 rounded-full flex items-center justify-center font-black text-lg shadow-xl transition-all duration-300
             ${isUnlocked
               ? `bg-gradient-to-br ${style.gradient} text-white cursor-pointer hover:scale-110`
@@ -85,7 +85,7 @@ const StageCard = ({ stage, index, total, navigate }) => {
         className={`w-[calc(50%-56px)] ${isLeft ? 'mr-auto pr-4' : 'ml-auto pl-4'}`}
       >
         <div
-          onClick={() => isUnlocked && navigate('/ParsonsBlocks')}
+          onClick={() => isUnlocked && navigate(`/ParsonsBlocks?sectionId=${sectionId}`)}
           className={`group relative rounded-2xl border backdrop-blur-md p-5 transition-all duration-300 
             ${isUnlocked
               ? 'bg-slate-800/60 border-slate-700/50 hover:border-opacity-80 cursor-pointer hover:-translate-y-1 hover:shadow-2xl'
@@ -279,6 +279,7 @@ const LearningPath = ({ selectedSection, onBack }) => {
               index={index}
               total={stages.length}
               navigate={navigate}
+              sectionId={selectedSection.id}
             />
           ))}
         </div>

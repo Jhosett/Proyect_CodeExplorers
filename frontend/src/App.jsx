@@ -15,7 +15,9 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/game-modes" element={<GameModesPage />} />
+      <Route path="/game-modes/:sectionId" element={<GameModesPage />} />
       <Route path="/game-introduction/:gameId" element={<GameIntroduction />} />
+      <Route path="/ParsonsBlocks/:levelId" element={<GameLevel/>}/>
       <Route path="/ParsonsBlocks" element={<GameLevel/>}/>
     </Routes>
   );
