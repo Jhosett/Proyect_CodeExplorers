@@ -15,14 +15,14 @@ export default function ExecutionPath({
   };
 
   return (
-    <div className="p-3 sm:p-4">
+    <div className="p-3 sm:p-4 flex flex-col min-h-0 h-full">
 
       <div className="text-xs uppercase text-slate-400 mb-2 sm:mb-3 tracking-widest">
         Ruta de ejecución
       </div>
 
       <div
-        className="bg-slate-800 border border-dashed border-slate-600 rounded-lg min-h-[160px] md:min-h-[220px] p-2 sm:p-3 flex flex-col gap-1"
+        className="bg-slate-800 border border-dashed border-slate-600 rounded-lg p-2 sm:p-3 flex flex-col gap-1 flex-1 min-h-0 overflow-y-auto"
         onDragOver={(e) => handleDragOver(e, pathBlocks.length)}
         onDrop={() => onDropToPath(pathBlocks.length)}
       >

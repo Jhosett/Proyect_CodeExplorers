@@ -34,6 +34,8 @@ const GameModesPage = () => {
   const navigate = useNavigate();
   const { sectionId } = useParams();
   const [selectedSection, setSelectedSection] = useState(null);
+  const [userProgress, setUserProgress] = useState({});
+  const [moduleLevels, setModuleLevels] = useState([]);
 
   useEffect(() => {
     if (sectionId) {
@@ -41,6 +43,32 @@ const GameModesPage = () => {
       if (found) setSelectedSection(found);
     }
   }, [sectionId]);
+
+  useEffect(() => {
+    import("../firebase/firebaseConfig").then(({ auth }) => {
+      import("../services/progressService").then(({ getAllProgress }) => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            const progress = await getAllProgress(user.uid);
+            setUserProgress(progress);
+          }
+        });
+        return () => unsubscribe();
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedSection) {
+      import("../services/levelService").then(({ getLevelsBySection }) => {
+        getLevelsBySection(selectedSection.id).then(levels => {
+          setModuleLevels(levels);
+        });
+      });
+    } else {
+      setModuleLevels([]);
+    }
+  }, [selectedSection]);
 
   const mappedSections = sections.map((section, index) => {
     const styleSource = gameModes[index % gameModes.length];
@@ -164,6 +192,8 @@ const GameModesPage = () => {
         >
           <LearningPath
             selectedSection={selectedSection}
+            userProgress={userProgress}
+            moduleLevels={moduleLevels}
             onBack={() => { setSelectedSection(null); navigate("/game-modes"); }}
           />
         </motion.div>

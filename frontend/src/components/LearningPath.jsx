@@ -16,13 +16,51 @@ const moduleStyles = {
 };
 
 /* ─── Animated stage card ────────────────────────────────────── */
-const StageCard = ({ stage, index, total, navigate, sectionId }) => {
-  const isUnlocked = stage.isUnlocked;
+const StageCard = ({ stage, index, total, navigate, userProgress, moduleLevels }) => {
+  // Get all levels for this stage
+  const stageLevels = moduleLevels.filter(l => l.stageId === stage.id).sort((a, b) => a.order - b.order);
+  
+  // Find first uncompleted level in this stage
+  let targetLevelId = null;
+  let isStageComplete = false;
+  
+  if (stageLevels.length > 0) {
+    const firstUncompleted = stageLevels.find(l => !userProgress[l.id]?.completed);
+    if (firstUncompleted) {
+      targetLevelId = firstUncompleted.id;
+    } else {
+      isStageComplete = true;
+      targetLevelId = stageLevels[0].id; // Replay first level if stage is complete
+    }
+  }
+
+  // Determine if unlocked:
+  // - Stage 0 is always unlocked
+  // - Other stages are unlocked if the previous stage is fully complete
+  let isUnlocked = false;
+  if (index === 0) {
+    isUnlocked = true;
+  } else {
+    // Check if ALL levels of the PREVIOUS stage are completed
+    const prevStage = stage.unlockRequirements[0];
+    if (prevStage) {
+      const prevStageLevels = moduleLevels.filter(l => l.stageId === prevStage);
+      const isPrevComplete = prevStageLevels.length > 0 && prevStageLevels.every(l => userProgress[l.id]?.completed);
+      isUnlocked = isPrevComplete;
+    }
+  }
+
   const isExpert   = stage.moduleType === 'expert';
   const style      = moduleStyles[stage.moduleType] || moduleStyles.logic;
   const isLeft     = index % 2 === 0;
   const ref        = useRef(null);
   const isInView   = useInView(ref, { once: true, margin: '-60px' });
+
+  const handleStart = () => {
+    if (isUnlocked && targetLevelId) {
+      navigate(`/ParsonsBlocks/${targetLevelId}`);
+    }
+  };
 
   return (
     <div
@@ -33,7 +71,7 @@ const StageCard = ({ stage, index, total, navigate, sectionId }) => {
       {/* ── Centre timeline node ── */}
       <div className="absolute left-1/2 -translate-x-1/2 z-30 flex flex-col items-center">
         {/* Pulse ring for unlocked nodes */}
-        {isUnlocked && (
+        {isUnlocked && !isStageComplete && (
           <motion.div
             className="absolute rounded-full"
             style={{
@@ -51,7 +89,7 @@ const StageCard = ({ stage, index, total, navigate, sectionId }) => {
           initial={{ scale: 0 }}
           animate={isInView ? { scale: 1 } : {}}
           transition={{ delay: 0.15, type: 'spring', stiffness: 260, damping: 20 }}
-          onClick={() => isUnlocked && navigate(`/ParsonsBlocks?sectionId=${sectionId}`)}
+          onClick={handleStart}
           className={`relative w-14 h-14 rounded-full flex items-center justify-center font-black text-lg shadow-xl transition-all duration-300
             ${isUnlocked
               ? `bg-gradient-to-br ${style.gradient} text-white cursor-pointer hover:scale-110`
@@ -60,7 +98,7 @@ const StageCard = ({ stage, index, total, navigate, sectionId }) => {
           style={isUnlocked ? { boxShadow: `0 0 24px ${style.glow}` } : {}}
         >
           {isUnlocked
-            ? (isExpert ? <FaTrophy className="text-xl text-black/80" /> : <FaPlay className="text-base pl-0.5" />)
+            ? (isStageComplete ? <FaStar className="text-xl text-yellow-300" /> : (isExpert ? <FaTrophy className="text-xl text-black/80" /> : <FaPlay className="text-base pl-0.5" />))
             : <FaLock className="text-base" />
           }
         </motion.button>
@@ -85,7 +123,7 @@ const StageCard = ({ stage, index, total, navigate, sectionId }) => {
         className={`w-[calc(50%-56px)] ${isLeft ? 'mr-auto pr-4' : 'ml-auto pl-4'}`}
       >
         <div
-          onClick={() => isUnlocked && navigate(`/ParsonsBlocks?sectionId=${sectionId}`)}
+          onClick={handleStart}
           className={`group relative rounded-2xl border backdrop-blur-md p-5 transition-all duration-300 
             ${isUnlocked
               ? 'bg-slate-800/60 border-slate-700/50 hover:border-opacity-80 cursor-pointer hover:-translate-y-1 hover:shadow-2xl'
@@ -129,7 +167,7 @@ const StageCard = ({ stage, index, total, navigate, sectionId }) => {
           {/* Bottom action */}
           {isUnlocked ? (
             <div className="mt-4 flex items-center gap-1.5 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ color: style.accent }}>
-              Comenzar nivel <FaChevronRight className="text-[10px]" />
+              {isStageComplete ? 'Repetir niveles' : 'Comenzar nivel'} <FaChevronRight className="text-[10px]" />
             </div>
           ) : (
             <div className="mt-3 flex items-center gap-1.5 text-[11px] text-red-400/70 font-semibold">
@@ -155,16 +193,20 @@ const StageCard = ({ stage, index, total, navigate, sectionId }) => {
 };
 
 /* ─── Main component ─────────────────────────────────────────── */
-const LearningPath = ({ selectedSection, onBack }) => {
+const LearningPath = ({ selectedSection, onBack, userProgress = {}, moduleLevels = [] }) => {
   if (!selectedSection) return null;
 
   const navigate = useNavigate();
   const stages   = selectedSection.stages;
   const style    = moduleStyles[stages[0]?.moduleType] || moduleStyles.logic;
 
-  /* Compute progress */
-  const completed  = stages.filter(s => s.isUnlocked).length;
-  const percentage = Math.round((completed / stages.length) * 100);
+  /* Compute progress: a stage is complete if ALL its levels are complete */
+  const completedStages = stages.filter(stage => {
+    const stageLevels = moduleLevels.filter(l => l.stageId === stage.id);
+    return stageLevels.length > 0 && stageLevels.every(l => userProgress[l.id]?.completed);
+  }).length;
+  
+  const percentage = Math.round((completedStages / stages.length) * 100);
 
   return (
     <div className="w-full min-h-screen bg-[#0B1120] text-white overflow-x-hidden relative">
@@ -239,7 +281,7 @@ const LearningPath = ({ selectedSection, onBack }) => {
           >
             <div className="flex items-center justify-between text-xs text-slate-500 mb-2 font-medium">
               <span>Progreso del módulo</span>
-              <span style={{ color: style.accent }}>{completed}/{stages.length} completados</span>
+              <span style={{ color: style.accent }}>{completedStages}/{stages.length} completados</span>
             </div>
             <div className="h-2 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
               <motion.div
@@ -280,6 +322,8 @@ const LearningPath = ({ selectedSection, onBack }) => {
               total={stages.length}
               navigate={navigate}
               sectionId={selectedSection.id}
+              userProgress={userProgress}
+              moduleLevels={moduleLevels}
             />
           ))}
         </div>

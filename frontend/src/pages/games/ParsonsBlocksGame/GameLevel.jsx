@@ -311,7 +311,7 @@ export default function GameLevel() {
       />
 
       {/* Main area */}
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_280px] flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_280px] flex-1 min-h-0 overflow-hidden">
 
         <ExecutionPath
           pathBlocks={pathBlocks}
