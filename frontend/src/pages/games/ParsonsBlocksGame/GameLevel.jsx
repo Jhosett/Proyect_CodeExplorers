@@ -303,15 +303,13 @@ export default function GameLevel() {
       />
 
       <LevelHeader
-        lives={lives}
-        maxLives={maxLives}
         onMenuClick={() => setDrawerOpen(true)}
         title={levelData.title}
         objective={levelData.objective}
       />
 
-      {/* Main area */}
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_280px] flex-1 min-h-0 overflow-hidden">
+      {/* Main area - Responsive layout */}
+      <div className="flex flex-col md:grid md:grid-cols-[1fr_200px] lg:grid-cols-[1fr_280px] flex-1 min-h-0 overflow-hidden">
 
         <ExecutionPath
           pathBlocks={pathBlocks}
@@ -322,9 +320,12 @@ export default function GameLevel() {
           setDragOverIndex={setDragOverIndex}
         />
 
+        {/* Avatar Zone */}
         <AvatarZone
           step={step}
           total={pathBlocks.length}
+          lives={lives}
+          maxLives={maxLives}
         />
 
       </div>

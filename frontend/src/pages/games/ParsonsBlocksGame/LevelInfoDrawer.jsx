@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { HiAcademicCap, HiLightBulb } from "react-icons/hi";
 import { BsBookHalf } from "react-icons/bs";
-import { FaStar, FaArrowLeft } from "react-icons/fa";
+import { FaStar, FaArrowLeft, FaHome } from "react-icons/fa";
 
 /**
  * Slide-in side drawer triggered by the hamburger icon.
@@ -140,17 +140,32 @@ export default function LevelInfoDrawer({ isOpen, onClose, info }) {
                   </div>
                 </div>
               )}
-              {/* ── Exit button ── */}
-              <button
-                onClick={() => navigate(sectionId ? `/game-modes/${sectionId}` : "/game-modes")}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl
-                           bg-slate-700/50 hover:bg-slate-700 border border-slate-600/50
-                           hover:border-purple-500/40 text-slate-300 hover:text-white
-                           text-sm font-semibold transition-all group"
-              >
-                <FaArrowLeft className="text-xs group-hover:-translate-x-1 transition-transform" />
-                Salir a la ruta de niveles
-              </button>
+              {/* ── Action Buttons ── */}
+              <div className="space-y-3">
+                <button
+                  onClick={() => navigate("/dashboard")}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl
+                             bg-gradient-to-r from-cyan-600/20 to-blue-600/20
+                             hover:from-cyan-600/30 hover:to-blue-600/30
+                             border border-cyan-500/30 hover:border-cyan-500/50
+                             text-cyan-300 hover:text-white
+                             text-sm font-semibold transition-all group"
+                >
+                  <FaHome className="text-xs group-hover:scale-110 transition-transform" />
+                  Ir al Dashboard
+                </button>
+                
+                <button
+                  onClick={() => navigate(sectionId ? `/game-modes/${sectionId}` : "/game-modes")}
+                  className="w-full flex items-center justify-center gap-2 py-3 rounded-xl
+                             bg-slate-700/50 hover:bg-slate-700 border border-slate-600/50
+                             hover:border-purple-500/40 text-slate-300 hover:text-white
+                             text-sm font-semibold transition-all group"
+                >
+                  <FaArrowLeft className="text-xs group-hover:-translate-x-1 transition-transform" />
+                  Salir a la ruta de niveles
+                </button>
+              </div>
             </div>
           </motion.aside>
         </>
