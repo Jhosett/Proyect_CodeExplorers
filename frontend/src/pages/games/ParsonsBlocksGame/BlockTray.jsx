@@ -1,6 +1,6 @@
 import CodeBlock from "./CodeBlock";
 
-export default function BlockTray({ blocks, onTrayDragStart, setDragOverIndex, pathBlocks }) {
+export default function BlockTray({ blocks, onTrayDragStart, setDragOverIndex, pathBlocks, selectedBlockId }) {
 
   const alreadyInPath = (id) => pathBlocks.some(b => b.id === id);
 
@@ -21,8 +21,12 @@ export default function BlockTray({ blocks, onTrayDragStart, setDragOverIndex, p
               block={block}
               used={used}
               draggable={!used}
-              onDragStart={() => onTrayDragStart(block)}
+              onPointerDown={!used ? () => onTrayDragStart(block) : undefined}
+              onTouchStart={!used ? () => onTrayDragStart(block) : undefined}
+              onClick={!used ? () => onTrayDragStart(block) : undefined}
+              onDragStart={!used ? () => onTrayDragStart(block) : undefined}
               onDragEnd={() => setDragOverIndex(null)}
+              className={selectedBlockId === block.id ? "ring-2 ring-cyan-400" : ""}
             />
           );
         })}

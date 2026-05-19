@@ -35,6 +35,7 @@ export default function GameLevel() {
   const [lives, setLives] = useState(3);
   const [completed, setCompleted] = useState(false);
   const [dragOverIndex, setDragOverIndex] = useState(null);
+  const [selectedBlock, setSelectedBlock] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const dragSource = useRef(null);
 
@@ -65,6 +66,7 @@ export default function GameLevel() {
     setPathBlocks([]);
     setStep(0);
     setCompleted(false);
+    setSelectedBlock(null);
     setConsoleLines([
       { type: "sys", text: "// Ejecuta tu programa para ver la salida..." }
     ]);
@@ -80,12 +82,20 @@ export default function GameLevel() {
 
   // ── Drag handlers ────────────────────────────────────────
 
+  const clearBlockSelection = () => {
+    dragSource.current = null;
+    setDragOverIndex(null);
+    setSelectedBlock(null);
+  };
+
   const onTrayDragStart = (block) => {
     dragSource.current = { origin: "tray", block };
+    setSelectedBlock(block);
   };
 
   const onPathDragStart = (block, index) => {
     dragSource.current = { origin: "path", block, index };
+    setSelectedBlock(block);
   };
 
   const onDropToPath = (dropIndex) => {
@@ -93,12 +103,18 @@ export default function GameLevel() {
     const { origin, block, index: fromIndex } = dragSource.current;
 
     if (origin === "tray") {
-      if (pathBlocks.find(b => b.id === block.id)) return;
+      if (pathBlocks.find(b => b.id === block.id)) {
+        clearBlockSelection();
+        return;
+      }
       const updated = [...pathBlocks];
       updated.splice(dropIndex, 0, block);
       setPathBlocks(updated);
     } else if (origin === "path") {
-      if (fromIndex === dropIndex) return;
+      if (fromIndex === dropIndex) {
+        clearBlockSelection();
+        return;
+      }
       const updated = [...pathBlocks];
       updated.splice(fromIndex, 1);
       const target = dropIndex > fromIndex ? dropIndex - 1 : dropIndex;
@@ -106,8 +122,7 @@ export default function GameLevel() {
       setPathBlocks(updated);
     }
 
-    dragSource.current = null;
-    setDragOverIndex(null);
+    clearBlockSelection();
   };
 
   const removeBlock = (id) => {
@@ -318,9 +333,9 @@ export default function GameLevel() {
           onDropToPath={onDropToPath}
           dragOverIndex={dragOverIndex}
           setDragOverIndex={setDragOverIndex}
+          selectedBlockId={selectedBlock?.id}
         />
 
-        {/* Avatar Zone */}
         <AvatarZone
           step={step}
           total={pathBlocks.length}
@@ -340,9 +355,9 @@ export default function GameLevel() {
       <BlockTray
         blocks={blocks}
         onTrayDragStart={onTrayDragStart}
-        onDropToPath={onDropToPath}
         setDragOverIndex={setDragOverIndex}
         pathBlocks={pathBlocks}
+        selectedBlockId={selectedBlock?.id}
       />
 
     </div>

@@ -7,6 +7,7 @@ export default function ExecutionPath({
   onDropToPath,
   dragOverIndex,
   setDragOverIndex,
+  selectedBlockId,
 }) {
 
   const handleDragOver = (e, index) => {
@@ -21,15 +22,26 @@ export default function ExecutionPath({
         Ruta de ejecución
       </div>
 
+      {selectedBlockId && (
+        <div className="text-[10px] sm:text-xs text-cyan-300 mb-2">
+          Toca un lugar en la ruta para colocar el bloque seleccionado.
+        </div>
+      )}
+
       <div
         className="bg-slate-800 border border-dashed border-slate-600 rounded-lg p-2 sm:p-2.5 md:p-3 flex flex-col gap-1 sm:gap-1.5 flex-1 min-h-0 overflow-y-auto overflow-x-hidden hide-scrollbar"
         onDragOver={(e) => handleDragOver(e, pathBlocks.length)}
         onDrop={() => onDropToPath(pathBlocks.length)}
+        onClick={() => selectedBlockId && onDropToPath(pathBlocks.length)}
       >
 
         {pathBlocks.length === 0 && dragOverIndex === null && (
-          <div className="text-center text-slate-500 text-xs sm:text-sm mt-2 sm:mt-4">
-            Arrastra los bloques aquí
+          <div
+            className="text-center text-slate-500 text-xs sm:text-sm mt-2 sm:mt-4"
+            onClick={() => selectedBlockId && onDropToPath(pathBlocks.length)}
+            onTouchStart={() => selectedBlockId && onDropToPath(pathBlocks.length)}
+          >
+            {selectedBlockId ? "Toca aquí para colocar el bloque seleccionado" : "Arrastra los bloques aquí"}
           </div>
         )}
 
@@ -40,6 +52,8 @@ export default function ExecutionPath({
             <div
               onDragOver={(e) => handleDragOver(e, index)}
               onDrop={(e) => { e.stopPropagation(); onDropToPath(index); }}
+              onClick={() => selectedBlockId && onDropToPath(index)}
+              onTouchStart={() => selectedBlockId && onDropToPath(index)}
               className={`h-0.5 sm:h-1 rounded transition-all mb-0.5 sm:mb-1 ${
                 dragOverIndex === index ? "bg-purple-500" : "bg-transparent"
               }`}
@@ -52,6 +66,8 @@ export default function ExecutionPath({
               onRemove={() => removeBlock(block.id)}
               className="w-full"
               draggable
+              onPointerDown={() => onPathDragStart(block, index)}
+              onTouchStart={() => onPathDragStart(block, index)}
               onDragStart={() => onPathDragStart(block, index)}
               onDragEnd={() => setDragOverIndex(null)}
               onDragOver={(e) => handleDragOver(e, index)}
@@ -64,6 +80,8 @@ export default function ExecutionPath({
         <div
           onDragOver={(e) => handleDragOver(e, pathBlocks.length)}
           onDrop={() => onDropToPath(pathBlocks.length)}
+          onClick={() => selectedBlockId && onDropToPath(pathBlocks.length)}
+          onTouchStart={() => selectedBlockId && onDropToPath(pathBlocks.length)}
           className={`h-0.5 sm:h-1 rounded transition-all ${
             dragOverIndex === pathBlocks.length ? "bg-purple-500" : "bg-transparent"
           }`}

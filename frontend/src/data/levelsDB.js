@@ -248,4 +248,287 @@ export const levelsDB = {
     ],
     solution: ["b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8"],
   },
+
+  // ╔══════════════════════════════════════════════════════════╗
+  // ║  SEC 2 · STAGE 1 — Identificación de variables         ║
+  // ╚══════════════════════════════════════════════════════════╝
+
+  sec2_stg1_lvl1: {
+    id: "sec2_stg1_lvl1", sectionId: "sec2", stageId: "sec2-stage1",
+    order: 1, nextLevelId: "sec2_stg1_lvl2",
+    title: "Mi primera variable", objective: "Declara una variable y muestra su valor en pantalla",
+    difficulty: "fácil", gameType: "parsons", points: 100, maxLives: 3,
+    successMessage: "¡Creaste tu primera variable! Ya eres programador.",
+    blocks: [
+      { id: "b1", type: "var", label: 'nombre = "Carlos"', sub: "Declarar variable texto", text: 'nombre = "Carlos"', bubble: "Variable guardada" },
+      { id: "b2", type: "print", label: "print(nombre)", sub: "Mostrar el valor", text: "Carlos", bubble: "Carlos" },
+      { id: "d1", type: "var", label: "nombre = Carlos", sub: "Sin comillas", text: "Error: nombre no definido", bubble: "¿Sin comillas?", distractor: true },
+      { id: "d2", type: "print", label: 'print("nombre")', sub: "Imprime texto literal", text: "nombre", bubble: "Imprime la palabra", distractor: true },
+    ],
+    solution: ["b1", "b2"],
+  },
+
+  sec2_stg1_lvl2: {
+    id: "sec2_stg1_lvl2", sectionId: "sec2", stageId: "sec2-stage1",
+    order: 2, nextLevelId: "sec2_stg1_lvl3",
+    title: "Tipos de datos", objective: "Declara variables de tipo entero, decimal y texto, luego imprímelas",
+    difficulty: "fácil", gameType: "parsons", points: 100, maxLives: 3,
+    successMessage: "¡Conoces los tipos de datos básicos!",
+    blocks: [
+      { id: "b1", type: "var", label: "edad = 12", sub: "Entero (int)", text: "edad = 12", bubble: "Número entero" },
+      { id: "b2", type: "var", label: "altura = 1.50", sub: "Decimal (float)", text: "altura = 1.50", bubble: "Número decimal" },
+      { id: "b3", type: "var", label: 'nombre = "Lucía"', sub: "Texto (string)", text: 'nombre = "Lucía"', bubble: "Cadena de texto" },
+      { id: "b4", type: "print", label: "print(nombre, edad, altura)", sub: "Mostrar todo", text: "Lucía 12 1.50", bubble: "Lucía 12 1.50" },
+      { id: "d1", type: "var", label: 'edad = "doce"', sub: "Texto en vez de número", text: 'edad = "doce"', bubble: "Tipo incorrecto", distractor: true },
+      { id: "d2", type: "var", label: 'altura = "1.50"', sub: "Texto en vez de decimal", text: 'altura = "1.50"', bubble: "Es un string", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4"],
+  },
+
+  sec2_stg1_lvl3: {
+    id: "sec2_stg1_lvl3", sectionId: "sec2", stageId: "sec2-stage1",
+    order: 3, nextLevelId: "sec2_stg2_lvl1",
+    title: "Verdadero o falso", objective: "Declara variables booleanas y muestra sus valores",
+    difficulty: "medio", gameType: "parsons", points: 150, maxLives: 3,
+    successMessage: "¡Dominas los booleanos! True o False, sin secretos.",
+    blocks: [
+      { id: "b1", type: "var", label: "es_de_dia = True", sub: "Booleano verdadero", text: "es_de_dia = True", bubble: "¡Es de día!" },
+      { id: "b2", type: "var", label: "llueve = False", sub: "Booleano falso", text: "llueve = False", bubble: "No llueve" },
+      { id: "b3", type: "print", label: "print(es_de_dia)", sub: "Mostrar booleano", text: "True", bubble: "True" },
+      { id: "b4", type: "print", label: "print(llueve)", sub: "Mostrar booleano", text: "False", bubble: "False" },
+      { id: "d1", type: "var", label: 'es_de_dia = "True"', sub: "Texto, no booleano", text: 'es_de_dia = "True"', bubble: "Es un string", distractor: true },
+      { id: "d2", type: "var", label: "llueve = 0", sub: "Número, no booleano", text: "llueve = 0", bubble: "Es un entero", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4"],
+  },
+
+  // ╔══════════════════════════════════════════════════════════╗
+  // ║  SEC 2 · STAGE 2 — Asignación de valores               ║
+  // ╚══════════════════════════════════════════════════════════╝
+
+  sec2_stg2_lvl1: {
+    id: "sec2_stg2_lvl1", sectionId: "sec2", stageId: "sec2-stage2",
+    order: 1, nextLevelId: "sec2_stg2_lvl2",
+    title: "Cambiar el valor", objective: "Reasigna el valor de una variable y muestra el cambio",
+    difficulty: "fácil", gameType: "parsons", points: 120, maxLives: 3,
+    successMessage: "¡Las variables pueden cambiar de valor!",
+    blocks: [
+      { id: "b1", type: "var", label: 'color = "rojo"', sub: "Asignación inicial", text: 'color = "rojo"', bubble: "Color: rojo" },
+      { id: "b2", type: "print", label: "print(color)", sub: "Mostrar valor actual", text: "rojo", bubble: "rojo" },
+      { id: "b3", type: "var", label: 'color = "azul"', sub: "Reasignación", text: 'color = "azul"', bubble: "Ahora es azul" },
+      { id: "b4", type: "print", label: "print(color)", sub: "Mostrar nuevo valor", text: "azul", bubble: "azul" },
+      { id: "d1", type: "var", label: "color = rojo", sub: "Sin comillas", text: "Error", bubble: "Falta comillas", distractor: true },
+      { id: "d2", type: "print", label: 'print("color")', sub: "Imprime literal", text: "color", bubble: "No es la variable", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4"],
+  },
+
+  sec2_stg2_lvl2: {
+    id: "sec2_stg2_lvl2", sectionId: "sec2", stageId: "sec2-stage2",
+    order: 2, nextLevelId: "sec2_stg2_lvl3",
+    title: "Intercambio de valores", objective: "Usa una variable temporal para intercambiar dos valores",
+    difficulty: "medio", gameType: "parsons", points: 150, maxLives: 3,
+    successMessage: "¡Intercambio perfecto! El truco de la variable temporal.",
+    blocks: [
+      { id: "b1", type: "var", label: "a = 5", sub: "Primera variable", text: "a = 5", bubble: "a vale 5" },
+      { id: "b2", type: "var", label: "b = 10", sub: "Segunda variable", text: "b = 10", bubble: "b vale 10" },
+      { id: "b3", type: "var", label: "temp = a", sub: "Guardar a en temporal", text: "temp = 5", bubble: "Respaldo" },
+      { id: "b4", type: "var", label: "a = b", sub: "a toma el valor de b", text: "a = 10", bubble: "a ahora es 10" },
+      { id: "b5", type: "var", label: "b = temp", sub: "b toma el valor guardado", text: "b = 5", bubble: "b ahora es 5" },
+      { id: "b6", type: "print", label: "print(a, b)", sub: "Mostrar resultado", text: "10 5", bubble: "¡Intercambiados!" },
+      { id: "d1", type: "var", label: "a = b", sub: "Sin respaldo", text: "a = 10 (se pierde)", bubble: "¡Perdiste a!", distractor: true },
+      { id: "d2", type: "var", label: "b = a", sub: "Sin respaldo", text: "b = 10 (no cambia)", bubble: "Ambos iguales", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4", "b5", "b6"],
+  },
+
+  sec2_stg2_lvl3: {
+    id: "sec2_stg2_lvl3", sectionId: "sec2", stageId: "sec2-stage2",
+    order: 3, nextLevelId: "sec2_stg3_lvl1",
+    title: "Operaciones con variables", objective: "Calcula un descuento usando operaciones aritméticas",
+    difficulty: "medio", gameType: "parsons", points: 150, maxLives: 3,
+    successMessage: "¡Cálculo correcto! Las variables sirven para operar datos.",
+    blocks: [
+      { id: "b1", type: "var", label: "precio = 100", sub: "Precio original", text: "precio = 100", bubble: "Precio base" },
+      { id: "b2", type: "var", label: "descuento = 20", sub: "Valor de descuento", text: "descuento = 20", bubble: "20 de descuento" },
+      { id: "b3", type: "var", label: "total = precio - descuento", sub: "Calcular total", text: "total = 80", bubble: "100 - 20 = 80" },
+      { id: "b4", type: "print", label: 'print("Total:", total)', sub: "Mostrar resultado", text: "Total: 80", bubble: "Total: 80" },
+      { id: "d1", type: "var", label: "total = descuento - precio", sub: "Resta invertida", text: "total = -80", bubble: "Resultado negativo", distractor: true },
+      { id: "d2", type: "var", label: "total = precio + descuento", sub: "Suma en vez de resta", text: "total = 120", bubble: "¿Sumar descuento?", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4"],
+  },
+
+  // ╔══════════════════════════════════════════════════════════╗
+  // ║  SEC 2 · STAGE 3 — Completar código                    ║
+  // ╚══════════════════════════════════════════════════════════╝
+
+  sec2_stg3_lvl1: {
+    id: "sec2_stg3_lvl1", sectionId: "sec2", stageId: "sec2-stage3",
+    order: 1, nextLevelId: "sec2_stg3_lvl2",
+    title: "Mensaje personalizado", objective: "Concatena texto para formar un saludo completo",
+    difficulty: "fácil", gameType: "parsons", points: 120, maxLives: 3,
+    successMessage: "¡Saludo perfecto! Concatenar texto es muy útil.",
+    blocks: [
+      { id: "b1", type: "var", label: 'nombre = "María"', sub: "Declarar nombre", text: 'nombre = "María"', bubble: "Variable lista" },
+      { id: "b2", type: "var", label: 'saludo = "Hola, " + nombre', sub: "Concatenar textos", text: 'saludo = "Hola, María"', bubble: "Uniendo textos" },
+      { id: "b3", type: "print", label: "print(saludo)", sub: "Mostrar saludo", text: "Hola, María", bubble: "Hola, María" },
+      { id: "d1", type: "var", label: 'saludo = "Hola, " + "nombre"', sub: "Concatena literal", text: 'saludo = "Hola, nombre"', bubble: "No usa la variable", distractor: true },
+      { id: "d2", type: "print", label: "print(nombre + saludo)", sub: "Orden incorrecto", text: "MaríaHola, María", bubble: "Desordenado", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3"],
+  },
+
+  sec2_stg3_lvl2: {
+    id: "sec2_stg3_lvl2", sectionId: "sec2", stageId: "sec2-stage3",
+    order: 2, nextLevelId: "sec2_stg3_lvl3",
+    title: "Calculando la edad", objective: "Calcula la edad restando el año de nacimiento al año actual",
+    difficulty: "medio", gameType: "parsons", points: 150, maxLives: 3,
+    successMessage: "¡Cálculo de edad correcto! Las restas son fundamentales.",
+    blocks: [
+      { id: "b1", type: "var", label: "anio_actual = 2025", sub: "Año en curso", text: "anio_actual = 2025", bubble: "Año actual" },
+      { id: "b2", type: "var", label: "anio_nacimiento = 2010", sub: "Año de nacimiento", text: "anio_nacimiento = 2010", bubble: "Nació en 2010" },
+      { id: "b3", type: "var", label: "edad = anio_actual - anio_nacimiento", sub: "Calcular diferencia", text: "edad = 15", bubble: "2025 - 2010" },
+      { id: "b4", type: "print", label: 'print("Tu edad es:", edad)', sub: "Mostrar resultado", text: "Tu edad es: 15", bubble: "Tu edad es: 15" },
+      { id: "d1", type: "var", label: "edad = anio_nacimiento - anio_actual", sub: "Resta al revés", text: "edad = -15", bubble: "¡Negativo!", distractor: true },
+      { id: "d2", type: "print", label: "print(anio_actual)", sub: "Solo muestra el año", text: "2025", bubble: "No es la edad", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4"],
+  },
+
+  sec2_stg3_lvl3: {
+    id: "sec2_stg3_lvl3", sectionId: "sec2", stageId: "sec2-stage3",
+    order: 3, nextLevelId: "sec2_stg4_lvl1",
+    title: "Área del rectángulo", objective: "Calcula el área de un rectángulo usando base y altura",
+    difficulty: "medio", gameType: "parsons", points: 150, maxLives: 3,
+    successMessage: "¡Área calculada! Programar matemáticas es genial.",
+    blocks: [
+      { id: "b1", type: "var", label: "base = 8", sub: "Medida de la base", text: "base = 8", bubble: "Base: 8" },
+      { id: "b2", type: "var", label: "altura = 5", sub: "Medida de la altura", text: "altura = 5", bubble: "Altura: 5" },
+      { id: "b3", type: "var", label: "area = base * altura", sub: "Fórmula del área", text: "area = 40", bubble: "8 × 5 = 40" },
+      { id: "b4", type: "print", label: 'print("Área:", area)', sub: "Mostrar resultado", text: "Área: 40", bubble: "Área: 40" },
+      { id: "d1", type: "var", label: "area = base + altura", sub: "Suma en vez de producto", text: "area = 13", bubble: "No es multiplicar", distractor: true },
+      { id: "d2", type: "var", label: "area = base / altura", sub: "División en vez de producto", text: "area = 1.6", bubble: "Operación incorrecta", distractor: true },
+      { id: "d3", type: "print", label: "print(base)", sub: "Solo muestra la base", text: "8", bubble: "Falta el área", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4"],
+  },
+
+  // ╔══════════════════════════════════════════════════════════╗
+  // ║  SEC 2 · STAGE 4 — Predicción de salida                ║
+  // ╚══════════════════════════════════════════════════════════╝
+
+  sec2_stg4_lvl1: {
+    id: "sec2_stg4_lvl1", sectionId: "sec2", stageId: "sec2-stage4",
+    order: 1, nextLevelId: "sec2_stg4_lvl2",
+    title: "¿Qué imprime?", objective: "Ordena las líneas y predice el resultado de la suma de variables",
+    difficulty: "fácil", gameType: "parsons", points: 150, maxLives: 3,
+    successMessage: "¡Predicción correcta! Puedes rastrear valores como un experto.",
+    blocks: [
+      { id: "b1", type: "var", label: "x = 10", sub: "Valor inicial de x", text: "x = 10", bubble: "x vale 10" },
+      { id: "b2", type: "var", label: "y = 3", sub: "Valor inicial de y", text: "y = 3", bubble: "y vale 3" },
+      { id: "b3", type: "var", label: "x = x + y", sub: "Sumar y a x", text: "x = 13", bubble: "10 + 3 = 13" },
+      { id: "b4", type: "print", label: "print(x)", sub: "Mostrar resultado", text: "13", bubble: "13" },
+      { id: "d1", type: "var", label: "x = x - y", sub: "Resta en vez de suma", text: "x = 7", bubble: "Operación incorrecta", distractor: true },
+      { id: "d2", type: "print", label: "print(y)", sub: "Imprime variable equivocada", text: "3", bubble: "No es x", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4"],
+  },
+
+  sec2_stg4_lvl2: {
+    id: "sec2_stg4_lvl2", sectionId: "sec2", stageId: "sec2-stage4",
+    order: 2, nextLevelId: "sec2_stg4_lvl3",
+    title: "Siguiendo el rastro", objective: "Concatena dos cadenas con un espacio y predice la salida",
+    difficulty: "medio", gameType: "parsons", points: 180, maxLives: 3,
+    successMessage: "¡Rastreo perfecto! Sabes cómo se unen los textos.",
+    blocks: [
+      { id: "b1", type: "var", label: 'a = "Hola"', sub: "Primera cadena", text: 'a = "Hola"', bubble: "Cadena a" },
+      { id: "b2", type: "var", label: 'b = "Mundo"', sub: "Segunda cadena", text: 'b = "Mundo"', bubble: "Cadena b" },
+      { id: "b3", type: "var", label: 'c = a + " " + b', sub: "Concatenar con espacio", text: 'c = "Hola Mundo"', bubble: "Uniendo con espacio" },
+      { id: "b4", type: "print", label: "print(c)", sub: "Mostrar resultado", text: "Hola Mundo", bubble: "Hola Mundo" },
+      { id: "d1", type: "var", label: "c = a + b", sub: "Sin espacio", text: 'c = "HolaMundo"', bubble: "Falta el espacio", distractor: true },
+      { id: "d2", type: "print", label: "print(a)", sub: "Solo imprime a", text: "Hola", bubble: "Falta Mundo", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4"],
+  },
+
+  sec2_stg4_lvl3: {
+    id: "sec2_stg4_lvl3", sectionId: "sec2", stageId: "sec2-stage4",
+    order: 3, nextLevelId: "sec2_stg5_lvl1",
+    title: "Múltiples cambios", objective: "Rastrea cómo cambia una variable tras varias operaciones",
+    difficulty: "difícil", gameType: "parsons", points: 200, maxLives: 3,
+    successMessage: "¡Rastreo avanzado! Seguiste cada paso sin perderte.",
+    blocks: [
+      { id: "b1", type: "var", label: "n = 2", sub: "Valor inicial", text: "n = 2", bubble: "n vale 2" },
+      { id: "b2", type: "var", label: "n = n * 5", sub: "Multiplicar por 5", text: "n = 10", bubble: "2 × 5 = 10" },
+      { id: "b3", type: "var", label: "n = n + 4", sub: "Sumar 4", text: "n = 14", bubble: "10 + 4 = 14" },
+      { id: "b4", type: "var", label: "n = n / 2", sub: "Dividir entre 2", text: "n = 7", bubble: "14 ÷ 2 = 7" },
+      { id: "b5", type: "print", label: "print(n)", sub: "Mostrar resultado final", text: "7", bubble: "7" },
+      { id: "d1", type: "var", label: "n = n - 4", sub: "Resta en vez de suma", text: "n = 6", bubble: "Operación incorrecta", distractor: true },
+      { id: "d2", type: "var", label: "n = n * 2", sub: "Multiplica en vez de dividir", text: "n = 28", bubble: "No es dividir", distractor: true },
+      { id: "d3", type: "print", label: "print(n + 1)", sub: "Suma extra al imprimir", text: "8", bubble: "Valor alterado", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4", "b5"],
+  },
+
+  // ╔══════════════════════════════════════════════════════════╗
+  // ║  SEC 2 · STAGE 5 — Retos básicos                       ║
+  // ╚══════════════════════════════════════════════════════════╝
+
+  sec2_stg5_lvl1: {
+    id: "sec2_stg5_lvl1", sectionId: "sec2", stageId: "sec2-stage5",
+    order: 1, nextLevelId: "sec2_stg5_lvl2",
+    title: "Convertir temperatura", objective: "Convierte grados Celsius a Fahrenheit usando la fórmula",
+    difficulty: "medio", gameType: "parsons", points: 200, maxLives: 3,
+    successMessage: "¡Conversión exitosa! Las fórmulas son poderosas.",
+    blocks: [
+      { id: "b1", type: "var", label: "celsius = 30", sub: "Temperatura en Celsius", text: "celsius = 30", bubble: "30 °C" },
+      { id: "b2", type: "var", label: "fahrenheit = celsius * 9 / 5 + 32", sub: "Fórmula de conversión", text: "fahrenheit = 86", bubble: "30×9÷5+32 = 86" },
+      { id: "b3", type: "print", label: 'print("Temperatura:", fahrenheit)', sub: "Mostrar resultado", text: "Temperatura: 86", bubble: "86 °F" },
+      { id: "d1", type: "var", label: "fahrenheit = celsius + 32", sub: "Fórmula incompleta", text: "fahrenheit = 62", bubble: "Falta el factor", distractor: true },
+      { id: "d2", type: "var", label: "fahrenheit = celsius * 5 / 9", sub: "Fórmula invertida", text: "fahrenheit = 16.67", bubble: "Es al revés", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3"],
+  },
+
+  sec2_stg5_lvl2: {
+    id: "sec2_stg5_lvl2", sectionId: "sec2", stageId: "sec2-stage5",
+    order: 2, nextLevelId: "sec2_stg5_lvl3",
+    title: "Datos de un estudiante", objective: "Crea un perfil de estudiante usando los cuatro tipos de datos",
+    difficulty: "difícil", gameType: "parsons", points: 250, maxLives: 3,
+    successMessage: "¡Perfil completo! Dominas int, float, string y boolean.",
+    blocks: [
+      { id: "b1", type: "var", label: 'nombre = "Pedro"', sub: "Texto (string)", text: 'nombre = "Pedro"', bubble: "Nombre guardado" },
+      { id: "b2", type: "var", label: "edad = 14", sub: "Entero (int)", text: "edad = 14", bubble: "Edad guardada" },
+      { id: "b3", type: "var", label: "promedio = 8.5", sub: "Decimal (float)", text: "promedio = 8.5", bubble: "Promedio guardado" },
+      { id: "b4", type: "var", label: "aprobado = True", sub: "Booleano (bool)", text: "aprobado = True", bubble: "¡Aprobado!" },
+      { id: "b5", type: "print", label: "print(nombre, edad, promedio, aprobado)", sub: "Mostrar todo", text: "Pedro 14 8.5 True", bubble: "Perfil completo" },
+      { id: "d1", type: "var", label: 'edad = "14"', sub: "String en vez de int", text: 'edad = "14"', bubble: "Tipo incorrecto", distractor: true },
+      { id: "d2", type: "var", label: 'aprobado = "True"', sub: "String en vez de bool", text: 'aprobado = "True"', bubble: "No es booleano", distractor: true },
+      { id: "d3", type: "var", label: "promedio = 8", sub: "Int en vez de float", text: "promedio = 8", bubble: "Pierde el decimal", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4", "b5"],
+  },
+
+  sec2_stg5_lvl3: {
+    id: "sec2_stg5_lvl3", sectionId: "sec2", stageId: "sec2-stage5",
+    order: 3, nextLevelId: null,
+    title: "El cajero automático", objective: "Simula un retiro y un depósito, calculando el saldo final",
+    difficulty: "difícil", gameType: "parsons", points: 300, maxLives: 3,
+    successMessage: "¡Saldo correcto! Eres un maestro de las variables.",
+    blocks: [
+      { id: "b1", type: "var", label: "saldo = 1000", sub: "Saldo inicial", text: "saldo = 1000", bubble: "Saldo: $1000" },
+      { id: "b2", type: "var", label: "retiro = 250", sub: "Monto a retirar", text: "retiro = 250", bubble: "Retiro: $250" },
+      { id: "b3", type: "var", label: "saldo = saldo - retiro", sub: "Descontar retiro", text: "saldo = 750", bubble: "1000 - 250 = 750" },
+      { id: "b4", type: "var", label: "deposito = 500", sub: "Monto a depositar", text: "deposito = 500", bubble: "Depósito: $500" },
+      { id: "b5", type: "var", label: "saldo = saldo + deposito", sub: "Agregar depósito", text: "saldo = 1250", bubble: "750 + 500 = 1250" },
+      { id: "b6", type: "print", label: 'print("Saldo final:", saldo)', sub: "Mostrar saldo", text: "Saldo final: 1250", bubble: "Saldo: $1250" },
+      { id: "d1", type: "var", label: "saldo = retiro - saldo", sub: "Resta invertida", text: "saldo = -750", bubble: "¡Negativo!", distractor: true },
+      { id: "d2", type: "var", label: "saldo = saldo - deposito", sub: "Resta en vez de suma", text: "saldo = 250", bubble: "¿Restar depósito?", distractor: true },
+      { id: "d3", type: "print", label: "print(retiro)", sub: "Muestra el retiro", text: "250", bubble: "No es el saldo", distractor: true },
+    ],
+    solution: ["b1", "b2", "b3", "b4", "b5", "b6"],
+  },
+
 };
+
