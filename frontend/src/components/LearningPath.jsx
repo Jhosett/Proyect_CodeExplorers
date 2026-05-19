@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase/firebaseConfig';
 import { FaLock, FaPlay, FaArrowLeft, FaStar, FaTrophy, FaChevronRight } from 'react-icons/fa';
 import { HiSparkles } from 'react-icons/hi';
 
@@ -194,9 +196,23 @@ const StageCard = ({ stage, index, total, navigate, userProgress, moduleLevels }
 
 /* ─── Main component ─────────────────────────────────────────── */
 const LearningPath = ({ selectedSection, onBack, userProgress = {}, moduleLevels = [] }) => {
-  if (!selectedSection) return null;
-
   const navigate = useNavigate();
+  const [authReady, setAuthReady] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) {
+        navigate('/login');
+      } else {
+        setAuthReady(true);
+      }
+    });
+
+    return unsubscribe;
+  }, [navigate]);
+
+  if (!authReady || !selectedSection) return null;
+
   const stages   = selectedSection.stages;
   const style    = moduleStyles[stages[0]?.moduleType] || moduleStyles.logic;
 
