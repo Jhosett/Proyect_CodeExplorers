@@ -9,6 +9,7 @@ import AvatarZone from "./AvatarZone";
 import ConsoleOutput from "./ConsoleOutput";
 import RunButton from "./RunButton";
 import InstructionsModal from "./InstructionsModal";
+import ShowAnimations from "../../../components/ShowAnimations";
 import { getLevelById } from "../../../services/levelService";
 import { saveProgress } from "../../../services/progressService";
 import { auth } from "../../../firebase/firebaseConfig";
@@ -36,6 +37,7 @@ export default function GameLevel() {
   const [completed, setCompleted] = useState(false);
   const [dragOverIndex, setDragOverIndex] = useState(null);
   const [selectedBlock, setSelectedBlock] = useState(null);
+  const [animationStatus, setAnimationStatus] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const dragSource = useRef(null);
 
@@ -194,6 +196,7 @@ export default function GameLevel() {
     if (correct) {
       // ✅ Success path
       setCompleted(true);
+      setAnimationStatus("success");
       setConsoleLines(prev => [
         ...prev,
         { type: "success", text: `✓ ${levelData.successMessage || "¡Correcto!"}` }
@@ -211,6 +214,8 @@ export default function GameLevel() {
           console.error("Error saving progress:", err);
         }
       }
+
+      await sleep(1200);
 
       // Show success dialog with "Next Level" option
       const hasNext = !!levelData.nextLevelId;
@@ -233,6 +238,7 @@ export default function GameLevel() {
 
     } else {
       // ❌ Failure path – lose a life
+      setAnimationStatus("error");
       const newLives = Math.max(0, lives - 1);
       setLives(newLives);
 
@@ -315,6 +321,11 @@ export default function GameLevel() {
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         info={drawerInfo}
+      />
+
+      <ShowAnimations
+        status={animationStatus}
+        onClose={() => setAnimationStatus(null)}
       />
 
       <LevelHeader
