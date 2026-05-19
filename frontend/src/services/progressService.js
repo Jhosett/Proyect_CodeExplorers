@@ -1,7 +1,15 @@
 // src/services/progressService.js
 import { db } from "../firebase/firebaseConfig";
-import { doc, getDoc, setDoc, getDocs, collection, query, where, serverTimestamp }
-  from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+  serverTimestamp,
+} from "firebase/firestore";
 
 /**
  * Guarda o actualiza el progreso de un nivel para un usuario.
@@ -38,6 +46,45 @@ export async function getAllProgress(uid) {
   const progress = {};
   snap.forEach((d) => { progress[d.id] = d.data(); });
   return progress;
+}
+
+/** Obtiene la tabla de clasificación de usuarios con puntajes y progreso acumulado */
+export async function getLeaderboard(limit = 20) {
+  const usersSnap = await getDocs(collection(db, "users"));
+  const leaderboard = await Promise.all(usersSnap.docs.map(async (userDoc) => {
+    const profile = userDoc.data();
+    const progressSnap = await getDocs(collection(db, "users", userDoc.id, "progress"));
+
+    let totalScore = 0;
+    let totalStars = 0;
+    let completedLevels = 0;
+    let lastActivity = null;
+
+    progressSnap.forEach((docSnap) => {
+      const data = docSnap.data();
+      totalScore += data.bestScore ?? 0;
+      totalStars += data.stars ?? 0;
+      if (data.completed) completedLevels += 1;
+      const timestamp = data.lastAttemptAt?.toDate?.() ?? null;
+      if (timestamp && (!lastActivity || timestamp > lastActivity)) {
+        lastActivity = timestamp;
+      }
+    });
+
+    return {
+      uid: userDoc.id,
+      username: profile.username || profile.email || "Explorador",
+      country: profile.country || "-",
+      completedLevels,
+      totalStars,
+      totalScore,
+      lastActivity,
+    };
+  }));
+
+  return leaderboard
+    .sort((a, b) => b.totalScore - a.totalScore || b.completedLevels - a.completedLevels)
+    .slice(0, limit);
 }
 
 /** Cuenta niveles completados en una etapa */

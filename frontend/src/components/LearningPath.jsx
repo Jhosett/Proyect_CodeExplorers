@@ -65,7 +65,7 @@ const StageCard = ({ stage, index, total, navigate, userProgress, moduleLevels }
   return (
     <div
       ref={ref}
-      className="relative flex items-center w-full"
+      className="relative flex flex-col items-center w-full"
       style={{ minHeight: '160px' }}
     >
       {/* ── Centre timeline node ── */}
@@ -120,7 +120,7 @@ const StageCard = ({ stage, index, total, navigate, userProgress, moduleLevels }
         initial={{ opacity: 0, x: isLeft ? -60 : 60 }}
         animate={isInView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.55, ease: 'easeOut', delay: 0.1 }}
-        className={`w-[calc(50%-56px)] ${isLeft ? 'mr-auto pr-4' : 'ml-auto pl-4'}`}
+        className={`w-full max-w-[calc(50%-56px)] ${isLeft ? 'md:mr-auto md:pr-4' : 'md:ml-auto md:pl-4'} mx-auto`}
       >
         <div
           onClick={handleStart}
